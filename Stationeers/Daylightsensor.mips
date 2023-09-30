@@ -1,0 +1,17 @@
+# Daylight Sensor 'rounded' side needs to aim at same 
+#   direction of solar panel when vert is lowered
+alias DaylightSensor d0
+
+define SOLARPANEL -2045627372
+
+start:
+yield
+
+l r0 DaylightSensor Horizontal
+l r0 DaylightSensor Vertical
+sub r0 90 r0
+
+sb SOLARPANEL Horizontal r0
+sb SOLARPANEL Vertical r0
+
+j start
