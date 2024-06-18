@@ -5,12 +5,12 @@
 ::::::::::::::::::::::::::::::::::::::::::::
  @echo off
  CLS
- ECHO.
  ECHO NOTE: 
  ECHO Elevation is only needed if you need to clear the nVidia cache at
  ECHO "C:\ProgramData\NVIDIA Corporation\NV_Cache\". Otherwise, you can
  ECHO deny the script elevation permissions and it will still clear all
  ECHO other locations without issue.
+ PAUSE
  ECHO =============================
  ECHO Running Admin shell
  ECHO =============================
