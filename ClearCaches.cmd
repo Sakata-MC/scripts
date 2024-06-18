@@ -6,6 +6,11 @@
  @echo off
  CLS
  ECHO.
+ ECHO NOTE: 
+ ECHO Elevation is only needed if you need to clear the nVidia cache at
+ ECHO "C:\ProgramData\NVIDIA Corporation\NV_Cache\". Otherwise, you can
+ ECHO deny the script elevation permissions and it will still clear all
+ ECHO other locations without issue.
  ECHO =============================
  ECHO Running Admin shell
  ECHO =============================
@@ -59,6 +64,7 @@
  
 @echo off
 echo Clearing temp files and D3D shader cache...
+:: Remove the :: from the next line to also clean up your temp files location that may help with other games:
 del /s /q "%localappdata%\Temp\*.* "
 del /s /q "%localappdata%\D3DSCache\*.* "
 
@@ -68,7 +74,18 @@ del /s /q "%localappdata%\NVIDIA\NV_Cache\*.* "
 del /s /q "%appdata%\NVIDIA\ComputeCache\*.* "
 del /s /q "C:\ProgramData\NVIDIA Corporation\NV_Cache\*.* "
 
-echo Clearing Star Citizen cache...
+echo Clearing AMD caches...
+del /s /q "%localappdata%\AMD\DxCache\*.* "
+del /s /q "%localappdata%\AMD\DxcCache\*.* "
+del /s /q "%localappdata%\AMD\Dx9Cache\*.* "
+
+echo Clearing Star Citizen cache... keeps GraphicsSettings.json
+set "scfolder=%localappdata%\Star Citizen"
+md ".\_TempDir_"
+robocopy "%scfolder%" "_TempDir_" /MIR /E GraphicsSettings.json
 del /s /q "%localappdata%\Star Citizen\*.* "
+robocopy "_TempDir_" "%scfolder%" /MIR /E GraphicsSettings.json
+del /s /q ".\_TempDir_\*.*"
+rd /s /q ".\_TempDir_"
 
 exit /b
