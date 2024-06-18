@@ -65,7 +65,7 @@
 @echo off
 echo Clearing temp files and D3D shader cache...
 :: Remove the :: from the next line to also clean up your temp files location that may help with other games:
-del /s /q "%localappdata%\Temp\*.* "
+::del /s /q "%localappdata%\Temp\*.* "
 del /s /q "%localappdata%\D3DSCache\*.* "
 
 echo Clearing nVidia caches...
