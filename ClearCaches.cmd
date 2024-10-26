@@ -78,6 +78,7 @@ echo Clearing AMD caches...
 del /s /q "%localappdata%\AMD\DxCache\*.* "
 del /s /q "%localappdata%\AMD\DxcCache\*.* "
 del /s /q "%localappdata%\AMD\Dx9Cache\*.* "
+del /s /q "%localappdata%\AMD\VkCache\*.* "
 
 echo Clearing Star Citizen cache... keeps GraphicsSettings.json
 set "scfolder=%localappdata%\Star Citizen"
