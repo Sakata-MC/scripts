@@ -1,0 +1,125 @@
+# r0 r1 r2 is for logic/math/temp
+# r3 r4 for filter types
+# r5 r6 for filter wear
+# r7 r8 for pressure outputs
+# r11 flag for filter/gas match
+
+define LEDName HASH("LEDSlide:O")
+define PumpName HASH("VP:O")
+define WARNName HASH("FW:O")
+
+define LEDHash 576516101      # LED Slide
+define PumpHash -321403609    # Volume Pump
+define WARNHash -1535893860   # Flashing Light
+define MaxPressure 40000      # Max Pressure on output
+define WearThreshold 0.01     # Filter wear limit
+
+start:
+yield
+
+ls r5 db 0 Quantity          # Read filter0 wear
+ble r5 WearThreshold error   # Wear level error
+ls r6 db 1 Quantity          # Read filter1 wear
+ble r6 WearThreshold error   # Wear level error
+
+sbn WARNHash WARNName On 0   # No error, turn off warning light
+add r0 r5 r6
+div r0 r0 2
+mul r0 r0 0.01               # Convert to a % for display
+sbn LEDHash LEDName Setting r0  # Set LEDslide
+
+l r7 db PressureOutput
+bge r7 MaxPressure turnoff
+
+l r8 db PressureOutput2
+brgtz r8 3
+sbn PumpHash PumpName On 0
+jr 2
+sbn PumpHash PumpName On 1
+
+move r11 0
+ls r3 db 0 FilterType    # Get Filter Type Slot0
+#FilterType 1=O2 2=N 4=CO2 8=H 64=N2O 1024=H2O
+brne r3 1 4              # Skip if FilterType != O2
+l r0 db RatioOxygenInput
+breqz r0 2
+add r11 r11 1
+brne r3 2 4              # Skip if FilterType != N
+l r0 db RatioNitrogenInput
+breqz r0 2
+add r11 r11 1
+brne r3 4 4              # Skip if FilterType != CO2
+l r0 db RatioCarbonDioxideInput
+breqz r0 2
+add r11 r11 1
+brne r3 8 4              # Skip if FilterType != H
+l r0 db RatioVolatilesInput
+breqz r0 2
+add r11 r11 1
+brne r3 16 4             # Skip if FilterType != X
+l r0 db RatioPollutantInput
+breqz r0 2
+add r11 r11 1
+brne r3 64 4             # Skip if FilterType != N2O
+l r0 db RatioNitrousOxideInput
+breqz r0 2
+add r11 r11 1
+brne r3 1024 4           # Skip if FilterType != H2O
+l r0 db RatioWaterInput
+breqz r0 2
+add r11 r11 1
+
+ls r4 db 1 FilterType    # Get Filter Type Slot1
+brne r4 1 4              # Skip if FilterType != O2
+l r0 db RatioOxygenInput
+breqz r0 2
+add r11 r11 1
+brne r4 2 4              # Skip if FilterType != N
+l r0 db RatioNitrogenInput
+breqz r0 2
+add r11 r11 1
+brne r4 4 4              # Skip if FilterType != CO2
+l r0 db RatioCarbonDioxideInput
+breqz r0 2
+add r11 r11 1
+brne r4 8 4              # Skip if FilterType != H
+l r0 db RatioVolatilesInput
+breqz r0 2
+add r11 r11 1
+brne r4 16 4             # Skip if FilterType != X
+l r0 db RatioPollutantInput
+breqz r0 2
+add r11 r11 1
+brne r4 64 4             # Skip if FilterType != N2O
+l r0 db RatioNitrousOxideInput
+breqz r0 2
+add r11 r11 1
+brne r4 1024 4           # Skip if FilterType != H2O
+l r0 db RatioWaterInput
+breqz r0 2
+add r11 r11 1
+
+
+# Write to a debug LED:
+#sb -815193061 Setting r3
+
+bnez r11 turnon
+beqz r11 turnoff
+
+# We should't get here normally unless jumped to...
+error:
+sbn WARNHash WARNName On 1
+sbn LEDHash LEDName On 0
+sbn PumpHash PumpName On 1
+s db Mode 0
+j start
+
+turnon:
+s db Mode 1
+sbn LEDHash LEDName On 1
+j start
+
+turnoff:
+s db Mode 0
+sbn LEDHash LEDName On 0
+j start
