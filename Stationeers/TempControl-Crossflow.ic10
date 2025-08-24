@@ -1,0 +1,62 @@
+# Define device types and names:
+define hnPA             HASH("TempRegPA")
+define hnVPCoolLoop     HASH("VPCoolLoop")
+define hnVPHeatLoop     HASH("VPHeatLoop")
+
+define TempMinC         21.0
+define TempMaxC         21.99
+
+define htPA             -2113838091
+define htVPLiquid       -454028979
+define htVPGas          -321403609
+define htLED            -53151617
+define htAVent          -1129453144
+
+alias TempMin  r6
+alias TempMax  r7
+alias TempNow  r8
+alias TempNowC r9
+
+add TempMin TempMinC 273.15
+add TempMax TempMaxC 273.15
+
+loop:
+yield
+sb htPA On 1                    #Turn on Analyzer, JIC it is off
+sb htAVent On 1 #Active vents on
+sb htAVent PressureInternal 45000 #dont pop pipes
+
+#Get Temp
+lbn TempNow htPA hnPA Temperature Average
+sub TempNowC TempNow 273.15
+
+blt TempNow TempMin Heating     #Below temp, Heat
+bgt TempNow TempMax Cooling     #Above temp, Cool
+
+#In temp range, turn off all pumps
+sb htVPLiquid   On 0
+sb htVPGas      On 0
+sb htLED        Color 2
+
+SetLED:
+sb htLED Setting TempNowC
+s db Setting TempNowC
+j loop
+
+Heating:
+sbn htVPLiquid hnVPCoolLoop On 0
+sbn htVPGas hnVPCoolLoop On 0
+sbn htVPLiquid hnVPHeatLoop On 1
+sbn htVPGas hnVPHeatLoop On 1
+sb htLED        Color 4
+yield
+j SetLED
+
+Cooling:
+sbn htVPLiquid hnVPHeatLoop On 0
+sbn htVPGas hnVPHeatLoop On 0
+sbn htVPLiquid hnVPCoolLoop On 1
+sbn htVPGas hnVPCoolLoop On 1
+sb htLED        Color 0
+yield
+j SetLED

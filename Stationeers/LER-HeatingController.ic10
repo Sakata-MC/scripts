@@ -1,0 +1,93 @@
+# Sakata's Solar Heater Controller
+# Requires: Data port facings MUST MATCH
+#   for DLS and SLERs and face 0 or 270.
+# Daylight Sensor
+#   Structure Large Extendable Radiators
+# Liquid Pipe Analyzer
+#   Gas/Liquid Heat Exchanger (for cooling)
+# Gas Digital Valve -&gt; Direct Heat Exchangers
+# Water - More is better but takes longer to heat.
+# Transmitter with Weather for input
+
+# Label DaylightSensor       SHC:DLS
+# Label Liquid Pipe Analyzer SHC:LPA
+# Label Gas Digital Valve    SHC:GDV
+# Label Logic Transmitter    SHC:LTR
+
+define DLSname HASH("SHC:DLS")
+define LPAname HASH("SHC:LPA")
+define GDVname HASH("SHC:GDV")
+define LTRname HASH("SHC:LTR")
+
+define TempMinC 21.2
+define TempMaxC 21.8
+
+define DLShash     1076425094
+define LPAhash     -2113838091
+define GDVhash     -1280984102
+define LERhash     -566775170
+define LTRhash     -693235651
+define Displayhash -53151617
+define PSenshash   -1252983604
+define LVPhash     -1129453144
+define HeatExhash  -287495560
+
+alias TempMin r6
+alias TempMax r7
+alias DLSacti r8
+alias DLShori r9
+alias LPAtemp r10
+alias LPApres r12
+alias GDVacti r13
+alias LERopen r14
+alias LERhori r15
+alias Weather r5
+
+add TempMin TempMinC 273.15
+add TempMax TempMaxC 273.15
+
+start:
+yield
+lbn DLSacti DLShash DLSname Activate 0
+lbn DLShori DLShash DLSname Horizontal 0
+lbn LPAtemp LPAhash LPAname Temperature 0
+lbn Weather LTRhash LTRname Setting 0
+
+#--- Temperature Control ---
+brle LPAtemp TempMin 3    # Skip 3 if temp <= min
+brge LPAtemp TempMax 2    # Skip 2 if temp >= max
+move LERopen 1            
+jr 3                      # Skip closure logic
+move LERopen 0            # Too cold (close)
+move LERopen 0            # Too hot (close)
+
+#--- Daylight Tracking ---
+breq DLSacti 1 3          # Skip 3 if daytime
+move LERopen 0            # Night closure
+move LERhori 0            # Reset angle
+jr 2                      # Skip daytime tracking
+move LERhori DLShori      # Track sun angle
+
+#--- Storm Override ---
+breq Weather 0 2          # Skip 2 if clear weather
+move LERopen 0            # Storm closure
+
+#--- Finalize LER State ---
+sb LERhash Horizontal LERhori
+sb LERhash Open LERopen
+
+#--- Gas Valve Control ---
+brge LPAtemp TempMax 2    # Skip 2 if temp >= max
+move GDVacti 0            # Open valve
+jr 1                      # Skip valve close
+move GDVacti 1            # Close valve
+sbn GDVhash GDVname On GDVacti
+
+#--- Emergency Cooling ---
+sub r0 LPAtemp 273.15
+brle r0 15 2              # Skip 2 if temp <=15°C
+sb HeatExhash On 0        # Normal mode
+jr 1                      # Skip emergency
+sb HeatExhash On 1        # Emergency cooling
+
+j start

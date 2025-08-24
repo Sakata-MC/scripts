@@ -1,0 +1,119 @@
+alias VendingMachine d0
+alias FurnaceIC d1
+alias ControlChute d2
+alias LMIngotReq d3
+alias LMOreReq d4
+
+define STACKSIZE 119
+define FURNACE 545937711
+define BUTTON 491845673
+define LED 1944485013
+define STEEL -654790771
+
+alias MissingOre r6
+alias IngotRequested r7
+alias OreRequested r8
+alias OreQuantity r9
+alias Ore1 r10
+alias Ore1Q r11
+alias Ore2 r12
+alias Ore2Q r13
+alias Ore3 r14
+alias Ore3Q r15
+move IngotRequested 0
+move MissingOre 0
+
+main:
+s db Setting MissingOre
+select r0 MissingOre 4 2
+sb LED Color r0
+yield
+
+l IngotRequested LMIngotReq Setting
+l r0 LMOreReq Setting
+seq r0 r0 STEEL
+s ControlChute Setting 0
+s ControlChute SettingOutput 0
+s ControlChute Mode r0
+select r5 r0 4 3 # Set dr5 to which memory are we waiting on later
+select IngotRequested r0 STEEL IngotRequested
+beqz IngotRequested main
+
+move sp STACKSIZE
+findIngot:
+pop Ore3Q
+pop Ore3
+pop Ore2Q
+pop Ore2
+pop Ore1Q
+pop Ore1
+pop r0
+bne r0 IngotRequested findIngot
+
+move MissingOre 0
+sb LED Color 5
+move OreRequested Ore1
+move OreQuantity Ore1Q
+jal CountOre
+move OreRequested Ore2
+move OreQuantity Ore2Q
+jal CountOre
+move OreRequested Ore3
+move OreQuantity Ore3Q
+jal CountOre
+bnez MissingOre main
+
+s db Setting IngotRequested
+s FurnaceIC Setting IngotRequested
+
+sb LED Color 3
+move OreRequested Ore1
+move OreQuantity Ore1Q
+jal VendOre
+move OreRequested Ore2
+move OreQuantity Ore2Q
+jal VendOre
+move OreRequested Ore3
+move OreQuantity Ore3Q
+jal VendOre
+
+lb r0 FURNACE ExportCount Maximum
+WaitForExport:
+yield
+lb r1 FURNACE ExportCount Maximum
+beq r0 r1 WaitForExport
+s FurnaceIC Setting 0
+
+WaitForMem:
+yield
+l r0 dr5 Setting
+bnez r0 WaitForMem
+j main
+
+VendOre:
+beqz OreRequested ra
+lb r1 FURNACE ImportCount Maximum
+s VendingMachine RequestHash 0
+yield # Above line is workaround for game bug
+s VendingMachine RequestHash OreRequested
+WaitForFurnImport:
+yield
+lb r0 FURNACE ImportCount Maximum
+beq r0 r1 WaitForFurnImport
+sub OreQuantity OreQuantity 1
+bnez OreQuantity VendOre
+j ra
+
+CountOre:
+move r2 0
+beqz OreRequested ra
+move r0 2
+ContinueChecking:
+ls r1 VendingMachine r0 OccupantHash
+brne r1 OreRequested 2
+add r2 r2 1
+add r0 r0 1
+bge r2 OreQuantity ra
+ble r0 101 ContinueChecking
+move MissingOre OreRequested
+j ra

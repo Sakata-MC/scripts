@@ -1,0 +1,50 @@
+alias dGSIn d0
+alias dGSOut d1
+
+alias rBreathIn r0
+alias rBreathOut r1
+
+s db Setting 0
+
+jLoop:
+l r15 dGSIn Pressure
+l r14 dGSOut Pressure
+sub r15 r15 r14
+abs r15 r15
+brlt r15 10 3
+s db Setting 0
+j jLoop
+l r15 dGSIn RatioOxygen
+l r14 dGSIn RatioPollutant
+l r13 dGSIn RatioVolatiles
+l r12 dGSIn Temperature
+l r10 dGSIn Pressure
+jal fIsBreathable
+move rBreathIn r15
+l r15 dGSOut RatioOxygen
+l r14 dGSOut RatioPollutant
+l r13 dGSOut RatioVolatiles
+l r12 dGSOut Temperature
+l r10 dGSOut Pressure
+jal fIsBreathable
+move rBreathOut r15
+
+and r15 rBreathIn rBreathOut
+s db Setting r15
+j jLoop
+
+fIsBreathable:
+sgt r15 r15 0.5 # &gt;50%
+slt r14 r14 0.0001 # &lt;0.01%
+slt r13 r13 0.001 # &lt;0.1%
+slt r11 r12 323.15 # &lt; 50C
+sgt r12 r12 273.15 # &gt; 0C
+slt r9 r10 200 # &lt; 200kPa
+sgt r10 r10 80 # &gt; 80kPa
+and r15 r15 r14
+and r15 r15 r13
+and r15 r15 r12
+and r15 r15 r11
+and r15 r15 r10
+and r15 r15 r9
+j ra

@@ -1,0 +1,126 @@
+#AIMeE base controller V2 CowsAreEvil
+alias robot d0         #Logic Transmitter
+alias displayX d1      #LED Display
+alias displayZ d2      #LED Display
+alias displayMode d3   #LED Display
+alias displayCharge d4 #LED Display
+alias lever d5         #Lever
+
+alias mode r1
+alias charge r2
+alias stuck r3
+
+setup:
+s displayCharge Color 5
+s displayCharge Mode 2
+#GPS locations  You will need to set with GPS tablet
+#These locations will be different on each world.
+define HOMEX -27
+define HOMEZ -53
+define WAYX -27
+define WAYZ -61
+define UNLOADX -27
+define UNLOADZ -51
+define MINEX -27
+define MINEZ -200
+#Modes
+define NONE 0
+define KILL 1
+define MOVE 2
+define MINE 3
+define UNLOAD 4
+define PATH 5
+define FULL 6
+
+start:
+#travel to unload via waypoint
+s robot TargetX WAYX
+s robot TargetZ WAYZ
+jal travel
+s robot TargetX UNLOADX
+s robot TargetZ UNLOADZ
+jal travel
+s robot Mode UNLOAD
+unloadWait:
+yield
+jal updateDisplays
+#check recall
+l r0 lever Setting
+bnez r0 recall
+#check battery
+blt charge 70000 unloadWait
+beq mode UNLOAD unloadWait
+#travel to mining location via waypoint
+s robot TargetX WAYX
+s robot TargetZ WAYZ
+jal travel
+s robot TargetX MINEX
+s robot TargetZ MINEZ
+jal travel
+#mine until full
+startMining:
+l r0 lever Setting
+bnez r0 recall
+#check for mineables
+l r0 robot MineablesInVicinity
+beqz r0 recall
+s robot Mode MINE
+mineWait:
+yield
+jal updateDisplays
+#check recall
+l r0 lever Setting
+bnez r0 recall
+beq mode MINE mineWait
+bne mode FULL startMining
+j start
+
+travel:
+push ra
+s robot Mode MOVE
+wait:
+yield
+jal updateDisplays
+l r0 robot VelocityMagnitude
+slt r0 r0 0.2
+mul stuck stuck r0
+add stuck stuck r0
+bgt stuck 20 pathfind
+l mode robot Mode
+beq mode MOVE wait
+pop ra
+j ra
+
+pathfind:
+s robot Mode PATH
+yield
+jal updateDisplays
+sleep 10
+s robot Mode MOVE
+move stuck 0
+j wait
+
+updateDisplays:
+l r0 robot PositionX
+s displayX Setting r0
+l r0 robot PositionY
+s robot TargetY r0
+l r0 robot PositionZ
+s displayZ Setting r0
+l mode robot Mode
+s displayMode Setting mode
+s displayMode Color mode
+ls charge robot 0 Charge
+s displayCharge Setting charge
+j ra
+
+recall:
+s robot TargetX WAYX
+s robot TargetZ WAYZ
+jal travel
+s robot TargetX HOMEX
+s robot TargetZ HOMEZ
+jal travel
+s robot On 0
+s displayMode Color 1
+j start

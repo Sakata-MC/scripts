@@ -1,0 +1,125 @@
+define hBreath HASH("IC2")
+define hOS HASH("OS")
+define TARGETPRESSIN 0 # in kPa
+define TARGETPRESSOUT 0 # in kPa
+alias dAVIn d0
+alias dAVOut d1
+alias dDoorIn d2
+alias dDoorOut d3
+alias dGS d4
+define dBtn 491845673
+alias rDirection r0 # 1=Out | 2=In
+alias rOpened r1
+s dAVOut On 0
+s dAVIn On 0
+s db Setting 0
+l r15 dDoorIn Open
+l r14 dDoorOut Open
+sll r15 r15 1
+add r13 r15 r14
+breq r13 0 4
+breq r13 3 3
+move rDirection r13
+j jLoop
+s dDoorOut Open 0
+s dDoorIn Open 1
+move rDirection 2
+jLoop:
+yield
+s db Setting rDirection
+lbn r15 -128473777 hBreath Setting Sum #IC
+beq r15 1 OpenAll
+beq rOpened 1 CloseSave
+lb r15 1220484876 Setting Maximum # Lever
+select r15 r15 0 1
+s dAVOut Lock r15
+s dAVIn Lock r15
+s dDoorOut Lock r15
+s dDoorIn Lock r15
+beq r15 0 jLoop
+lbn r15 322782515 hOS Activate Sum #Occ. Sensor
+lb r14 491845673 Activate Sum #Button
+or r15 r15 r14
+beq r15 0 jLoop
+beq rDirection 1 jCycleIn
+beq rDirection 2 jCycleOut
+j jLoop
+OpenAll:
+sb 1944485013 Color 2 # LED
+s dDoorIn Open 1
+s dDoorOut Open 1
+move rOpened 1
+sb 1220484876 Open 0 # Lever
+s dAVOut Lock 1
+s dAVIn Lock 1
+s dDoorOut Lock 1
+s dDoorIn Lock 1
+j jLoop
+CloseSave:
+sb 1944485013 Color 4 # LED
+s dDoorOut Open 0
+move rDirection 2
+move rOpened 0
+j jLoop
+jCycleIn:
+sb 1944485013 Color 5 # LED
+sb -1535893860 On 1 # FlashLight
+s dDoorIn Open 0
+s dDoorOut Open 0
+sleep 1 # Schliessen abwarten
+s dAVOut Mode 1
+s dAVOut On 1
+X1.1:
+l r15 dGS Pressure
+lb r14 dBtn Setting Maximum
+breq r14 1 10
+bgt r15 0 X1.1
+s dAVOut On 0
+s dAVIn Mode 0
+s dAVIn On 1
+X1.2:
+l r15 dGS Pressure
+lb r14 dBtn Setting Maximum
+breq r14 1 2
+blt r15 TARGETPRESSIN X1.2
+sb -1535893860 On 0 # FlashLight
+sb 1944485013 Color 4 # LED
+s dAVOut On 0
+s dAVIn On 0
+s dDoorIn Open 1
+move rDirection 2
+X1.3:
+lbn r15 322782515 hOS Activate Maximum  #Occ. Sensor
+beq r15 1 X1.3
+j jLoop
+jCycleOut:
+sb 1944485013 Color 5 # LED
+sb -1535893860 On 1 # FlashLight
+s dDoorIn Open 0
+s dDoorOut Open 0
+sleep 1 # Schliessen abwarten
+s dAVIn Mode 1
+s dAVIn On 1
+X2.1:
+l r15 dGS Pressure
+lb r14 dBtn Setting Maximum
+breq r14 1 10
+bgt r15 0 X2.1
+s dAVIn On 0
+s dAVOut Mode 0
+s dAVOut On 1
+X2.2:
+l r15 dGS Pressure
+lb r14 dBtn Setting Maximum
+breq r14 1 2
+blt r15 TARGETPRESSOUT X2.2
+sb 1944485013 Color 4 # LED
+sb -1535893860 On 0 # FlashLight
+s dAVIn On 0
+s dAVOut On 0
+s dDoorOut Open 1
+move rDirection 1
+X2.3:
+lbn r15 322782515 hOS Activate Maximum  #Occ. Sensor
+beq r15 1 X2.3
+j jLoop

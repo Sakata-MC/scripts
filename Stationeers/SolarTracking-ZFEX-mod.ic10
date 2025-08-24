@@ -1,0 +1,117 @@
+# @author: ZeroFunExMachina
+# Best with DLS@180 solar@90
+#--------------------------------------------------
+s db Setting 10 # set state initializing
+#--------------------------------------------------
+define SensorH 1076425094
+alias Sensor d0 # Optional*
+alias MaintSwitch d1 # Optional
+alias AvgRatioOut d2 # Optional
+alias TotChargeOut d3 # Optional
+alias HAngleOut d4 # Optional
+alias VAngleOut d5 # Optional
+#--------------------------------------------------
+alias state r15
+alias hAngle r14
+alias vAngle r13
+alias count r12
+alias avgRatio r11
+alias totCharge r10
+alias ptrSolarPanel r9
+alias ptrHash r8
+#--------------------------------------------------
+yield
+move ptrHash -1545574413 # heavy dual
+jal querynetwork
+move ptrHash -934345724 # heavy single
+jal querynetwork
+move ptrHash -539224550 # standard dual
+jal querynetwork
+move ptrHash -2045627372 # standard single
+jal querynetwork
+move ptrHash 2096189278 # logic mirror
+jal querynetwork
+mod count state 10
+#--------------------------------------------------
+run:
+brdse Sensor 3
+lb r0 SensorH Activate Maximum
+jr 2
+l r0 Sensor Activate
+select state r0 20 30 # 20 = Tracking; 30 = Resting
+brdns MaintSwitch 3
+l r0 MaintSwitch Setting
+select state r0 90 state # 90 = Maintenance; state
+s db Setting state
+brne state 20 8 # if false, run tracking
+brdse Sensor 4
+lb hAngle SensorH Horizontal Maximum
+lb vAngle SensorH Vertical Maximum
+jr 3
+l hAngle Sensor Horizontal
+l vAngle Sensor Vertical
+sub vAngle 90 vAngle
+brne state 30 3 # if false, run rest
+move hAngle 90
+move vAngle 0
+brne state 90 3 # if false, run maint
+move hAngle 0
+move vAngle 90
+brdns HAngleOut 2 # if set save to HAngleOut
+s HAngleOut Setting hAngle
+brdns VAngleOut 2 # if set save to VAngleOut
+s VAngleOut Setting vAngle
+move avgRatio 0
+move totCharge 0
+breqz count 4
+jal foreach
+bdseal AvgRatioOut ratioOutput
+bdseal TotChargeOut chargeOutput
+yield
+j run
+#--------------------------------------------------
+querynetwork:
+lb r0 ptrHash Ratio 0
+bne r0 r0 ra
+push ptrHash
+l state db Setting
+add state state 1
+s db Setting state
+yield
+j ra
+#--------------------------------------------------
+foreach:
+peek ptrSolarPanel
+sb ptrSolarPanel Horizontal hAngle
+sb ptrSolarPanel Vertical vAngle
+lb r0 ptrSolarPanel Charge Average
+lb r1 ptrSolarPanel Maximum Maximum
+div r0 r0 r1 # game bug, manually calc ratio
+add avgRatio avgRatio r0
+lb r2 ptrSolarPanel Charge Sum
+add totCharge totCharge r2
+sub sp sp 1
+bgt sp 0 foreach
+add sp sp count
+j ra
+#--------------------------------------------------
+ratioOutput:
+div avgRatio avgRatio count
+s AvgRatioOut Mode 1 # percentage
+s AvgRatioOut Setting avgRatio
+s AvgRatioOut Color 4 # [0.00 - 0.15) red
+brlt avgRatio 0.15 2
+s AvgRatioOut Color 3 # [0.15 - 0.70) orange
+brlt avgRatio 0.70 2
+s AvgRatioOut Color 5 # [0.70 - 0.90) yellow
+brlt avgRatio 0.90 2
+s AvgRatioOut Color 2 # [0.90 - 1.00) green
+j ra
+#--------------------------------------------------
+chargeOutput:
+round totCharge totCharge
+select r0 totCharge 2 4 # green, red
+s TotChargeOut Mode 2 # power
+s TotChargeOut Color r0
+s TotChargeOut Setting totCharge
+j ra

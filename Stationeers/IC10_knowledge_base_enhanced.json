@@ -1,0 +1,2350 @@
+{
+    "instructions": {
+        "utility": [
+            "instruction_category_utility"
+        ],
+        "mathematical": [
+            "instruction_category_mathematical"
+        ],
+        "stack": [
+            "instruction_category_stack"
+        ],
+        "slot_logic": [
+            "instruction_category_slot_logic"
+        ],
+        "bitwise": [
+            "instruction_category_bitwise"
+        ],
+        "comparison": [
+            "comparison_basic",
+            "comparison_device_pin",
+            "comparison_value"
+        ],
+        "branching": [
+            "branching_basic",
+            "branching_device_pin",
+            "branching_comparison_value"
+        ],
+        "device_variables": [
+            "device_slot_variables"
+        ],
+        "script_examples_categories": [
+            "device_automation",
+            "testing_benchmark_utility",
+            "function_call_management"
+        ],
+        "instruction_details": {
+            "instruction_category_utility": {
+                "description": "Category for general utility instructions that don't fit into other categories.",
+                "instructions": ["yield", "sleep", "nop", "j", "debug"]
+            },
+            "yield": {
+                "description": "Halts script execution for 1 game tick (approximately 0.5 seconds). Allows other processes to run. Essential for preventing script from consuming all CPU time and halting the game.",
+                "syntax": "yield",
+                "category": "utility",
+                "summary_learning_ic10": "Pause script execution for 1 game tick."
+            },
+            "sleep": {
+                "description": "Pauses script execution for a specified duration in seconds.",
+                "syntax": "sleep a(r?|num)",
+                "category": "utility",
+                "summary_learning_ic10": "Pause script for a duration in seconds."
+            },
+            "nop": {
+                "description": "No operation. Does nothing. Often used for padding, timing, or placeholders.",
+                "syntax": "nop",
+                "category": "utility",
+                "summary_learning_ic10": "No operation (does nothing)."
+            },
+            "j": {
+                "description": "Unconditional jump to a specified line number or label.",
+                "syntax": "j a(r?|num)",
+                "category": "utility",
+                "summary_learning_ic10": "Unconditional jump to line/label."
+            },
+            "debug": {
+                "description": "Prints a debug message to the in-game console. Useful for debugging and script output.",
+                "syntax": "debug a(r?|string)",
+                "category": "utility",
+                "summary_learning_ic10": "Print debug message to console."
+            },
+            "instruction_category_mathematical": {
+                "description": "Category for mathematical operations.",
+                "instructions": ["move", "add", "sub", "mul", "div", "mod", "round", "trunc", "ceil", "floor", "abs", "sqrt", "max", "min", "clamp", "log", "exp", "pow", "sin", "cos", "tan", "asin", "acos", "atan", "degrees", "radians"]
+            },
+            "move": {
+                "description": "Copies a value from source to destination. Destination is always a register.",
+                "syntax": "move r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Copy value to a register."
+            },
+            "add": {
+                "description": "Adds two values and stores the result in the first argument (register).",
+                "syntax": "add r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Addition: register = register + value."
+            },
+            "sub": {
+                "description": "Subtracts the second value from the first and stores the result in the first argument (register).",
+                "syntax": "sub r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Subtraction: register = register - value."
+            },
+            "mul": {
+                "description": "Multiplies two values and stores the result in the first argument (register).",
+                "syntax": "mul r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Multiplication: register = register * value."
+            },
+            "div": {
+                "description": "Divides the first value (register) by the second value and stores the result in the first argument (register).",
+                "syntax": "div r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Division: register = register / value."
+            },
+            "mod": {
+                "description": "Calculates the modulo (remainder) of the division of the first value (register) by the second value and stores the result in the first argument (register).",
+                "syntax": "mod r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Modulo (remainder): register = register % value."
+            },
+            "round": {
+                "description": "Rounds a value to the nearest integer and stores the result in the first argument (register).",
+                "syntax": "round r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Round to nearest integer."
+            },
+            "trunc": {
+                "description": "Truncates a value towards zero (removes the decimal part) and stores the result in the first argument (register).",
+                "syntax": "trunc r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Truncate towards zero (integer part)."
+            },
+            "ceil": {
+                "description": "Calculates the ceiling of a value (rounds up to the nearest integer) and stores the result in the first argument (register).",
+                "syntax": "ceil r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Ceiling (round up)."
+            },
+            "floor": {
+                "description": "Calculates the floor of a value (rounds down to the nearest integer) and stores the result in the first argument (register).",
+                "syntax": "floor r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Floor (round down)."
+            },
+            "abs": {
+                "description": "Calculates the absolute value of a number and stores the result in the first argument (register).",
+                "syntax": "abs r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Absolute value."
+            },
+            "sqrt": {
+                "description": "Calculates the square root of a non-negative number and stores the result in the first argument (register).",
+                "syntax": "sqrt r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Square root."
+            },
+            "max": {
+                "description": "Returns the larger of two values and stores it in the first argument (register).",
+                "syntax": "max r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Maximum of two values."
+            },
+            "min": {
+                "description": "Returns the smaller of two values and stores it in the first argument (register).",
+                "syntax": "min r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Minimum of two values."
+            },
+            "clamp": {
+                "description": "Clamps a value within a specified range (inclusive).  If value is below minimum, returns minimum. If value is above maximum, returns maximum. Otherwise, returns the value itself.",
+                "syntax": "clamp r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Clamp value within a range."
+            },
+            "log": {
+                "description": "Calculates the natural logarithm (base e) of a positive number and stores the result in the first argument (register).",
+                "syntax": "log r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Natural logarithm (base e)."
+            },
+            "exp": {
+                "description": "Calculates e raised to the power of a value (exponential function) and stores the result in the first argument (register).",
+                "syntax": "exp r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Exponential function (e^x)."
+            },
+            "pow": {
+                "description": "Raises the first value (register) to the power of the second value and stores the result in the first argument (register).",
+                "syntax": "pow r? a(r?|num) b(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Power function (x^y)."
+            },
+            "sin": {
+                "description": "Calculates the sine of an angle (in radians) and stores the result in the first argument (register).",
+                "syntax": "sin r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Sine (in radians)."
+            },
+            "cos": {
+                "description": "Calculates the cosine of an angle (in radians) and stores the result in the first argument (register).",
+                "syntax": "cos r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Cosine (in radians)."
+            },
+            "tan": {
+                "description": "Calculates the tangent of an angle (in radians) and stores the result in the first argument (register).",
+                "syntax": "tan r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Tangent (in radians)."
+            },
+            "asin": {
+                "description": "Calculates the arcsine (inverse sine) of a value and returns the result in radians, storing it in the first argument (register).",
+                "syntax": "asin r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Arcsine (inverse sine, in radians)."
+            },
+            "acos": {
+                "description": "Calculates the arccosine (inverse cosine) of a value and returns the result in radians, storing it in the first argument (register).",
+                "syntax": "acos r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Arccosine (inverse cosine, in radians)."
+            },
+            "atan": {
+                "description": "Calculates the arctangent (inverse tangent) of a value and returns the result in radians, storing it in the first argument (register).",
+                "syntax": "atan r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Arctangent (inverse tangent, in radians)."
+            },
+            "degrees": {
+                "description": "Converts an angle from radians to degrees and stores the result in the first argument (register).",
+                "syntax": "degrees r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Convert radians to degrees."
+            },
+            "radians": {
+                "description": "Converts an angle from degrees to radians and stores the result in the first argument (register).",
+                "syntax": "radians r? a(r?|num)",
+                "category": "mathematical",
+                "summary_learning_ic10": "Convert degrees to radians."
+            },
+            "instruction_category_stack": {
+                "description": "Category for stack-related instructions. The stack is used for temporary data storage, especially for managing function calls.",
+                "instructions": ["push", "pop"]
+            },
+            "push": {
+                "description": "Pushes the value of a register or number onto the stack. Decrements the stack pointer.",
+                "syntax": "push a(r?|num)",
+                "category": "stack",
+                "summary_learning_ic10": "Push value onto the stack."
+            },
+            "pop": {
+                "description": "Pops (retrieves and removes) the top value from the stack and stores it in a register. Increments the stack pointer.",
+                "syntax": "pop r?",
+                "category": "stack",
+                "summary_learning_ic10": "Pop value from stack into a register."
+            },
+            "instruction_category_slot_logic": {
+                "description": "Category for instructions related to device slots and item manipulation within slots.",
+                "instructions": ["ls", "lr", "lss", "lbs", "sls", "sbs"]
+            },
+            "ls": {
+                "description": "Load Slot Variable: Reads a variable from a specified slot of a device and stores it in a register.",
+                "syntax": "ls r? d? s? vSlotVar",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Load Slot Variable into register."
+            },
+            "lr": {
+                "description": "Load from Register Slot: Reads a variable from a slot specified by a register value, of a device, and stores it in a register.",
+                "syntax": "lr r? d? r? vSlotVar",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Load Slot Variable from Register-specified slot into register."
+            },
+            "lss": {
+                "description": "Load Stack Slot Variable: Reads a variable from a specified slot of a device, using a value from the stack to specify the slot number, and stores it in a register.",
+                "syntax": "lss r? d? vSlotVar",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Load Slot Variable from Stack-specified slot into register."
+            },
+            "lbs": {
+                "description": "Load Batch Slot Variable:  Similar to 'ls' but designed for batch processing. Reads a slot variable from a device specified by a prefab hash and slot number, storing the value in a register. Primarily used with 'sb' for coordinated device control.",
+                "syntax": "lbs r? hPrefab s? vSlotVar",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Load Batch Slot Variable into register (for prefab batch devices)."
+            },
+            "sls": {
+                "description": "Set Load Slot Variable: Sets a slot variable of a device to the value of a register.",
+                "syntax": "sls d? s? vSlotVar r?",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Set Slot Variable from register."
+            },
+            "sbs": {
+                "description": "Set Batch Slot Variable: Sets a slot variable for a batch of devices (specified by prefab hash) to a given value.",
+                "syntax": "sbs hPrefab s? vSlotVar a(r?|num)",
+                "category": "slot_logic",
+                "summary_learning_ic10": "Set Batch Slot Variable for prefab batch devices."
+            },
+            "instruction_category_bitwise": {
+                "description": "Category for bitwise operations. These instructions operate on the binary representation of numbers.",
+                "instructions": ["and", "or", "xor", "not", "shiftl", "shiftr"]
+            },
+            "and": {
+                "description": "Bitwise AND operation. Performs a bitwise AND between two values and stores the result in the first argument (register).",
+                "syntax": "and r? a(r?|num) b(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise AND."
+            },
+            "or": {
+                "description": "Bitwise OR operation. Performs a bitwise OR between two values and stores the result in the first argument (register).",
+                "syntax": "or r? a(r?|num) b(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise OR."
+            },
+            "xor": {
+                "description": "Bitwise XOR (exclusive OR) operation. Performs a bitwise XOR between two values and stores the result in the first argument (register).",
+                "syntax": "xor r? a(r?|num) b(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise XOR."
+            },
+            "not": {
+                "description": "Bitwise NOT operation. Inverts the bits of a value (one's complement) and stores the result in the first argument (register).",
+                "syntax": "not r? a(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise NOT (inversion)."
+            },
+            "shiftl": {
+                "description": "Bitwise left shift. Shifts the bits of the first value (register) to the left by the number of positions specified by the second value. New bits shifted in from the right are zeros.",
+                "syntax": "shiftl r? a(r?|num) b(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise left shift."
+            },
+            "shiftr": {
+                "description": "Bitwise right shift. Shifts the bits of the first value (register) to the right by the number of positions specified by the second value.  The behavior of sign-extension (whether the sign bit is copied during the shift) might be architecture-dependent (needs verification for IC10).",
+                "syntax": "shiftr r? a(r?|num) b(r?|num)",
+                "category": "bitwise",
+                "summary_learning_ic10": "Bitwise right shift."
+            },
+            "instruction_category_comparison": {
+                "description": "Category for comparison instructions. These instructions compare values and set a register to 1 if the condition is true, and 0 if false.",
+                "instructions": ["comparison_basic", "comparison_device_pin", "comparison_value"]
+            },
+            "comparison_basic": {
+                "description": "Sub-category for basic comparison instructions (set register based on comparison result).",
+                "instructions": ["set", "slt", "sle", "sgt", "sge", "seq", "sne"]
+            },
+            "set": {
+                "description": "Unconditional set. Sets a register to 1.",
+                "syntax": "set r?",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Unconditionally set register to 1."
+            },
+            "slt": {
+                "description": "Set if Less Than. Sets a register to 1 if the first value is less than the second value, otherwise 0.",
+                "syntax": "slt r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a < b."
+            },
+            "sle": {
+                "description": "Set if Less or Equal. Sets a register to 1 if the first value is less than or equal to the second value, otherwise 0.",
+                "syntax": "sle r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a <= b."
+            },
+            "sgt": {
+                "description": "Set if Greater Than. Sets a register to 1 if the first value is greater than the second value, otherwise 0.",
+                "syntax": "sgt r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a > b."
+            },
+            "sge": {
+                "description": "Set if Greater or Equal. Sets a register to 1 if the first value is greater than or equal to the second value, otherwise 0.",
+                "syntax": "sge r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a >= b."
+            },
+            "seq": {
+                "description": "Set if Equal. Sets a register to 1 if the first value is equal to the second value, otherwise 0.",
+                "syntax": "seq r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a == b."
+            },
+            "sne": {
+                "description": "Set if Not Equal. Sets a register to 1 if the first value is not equal to the second value, otherwise 0.",
+                "syntax": "sne r? a(r?|num) b(r?|num)",
+                "category": "comparison_basic",
+                "summary_learning_ic10": "Set register to 1 if a != b."
+            },
+            "comparison_device_pin": {
+                "description": "Sub-category for device/pin comparison instructions (set register based on device/pin status).",
+                "instructions": ["sdse", "sdns"]
+            },
+            "sdse": {
+                "description": "Set if Device Set. Sets a register to 1 if the specified device is 'set' (usually means configured and active), otherwise 0.",
+                "syntax": "sdse r? d?",
+                "category": "comparison_device_pin",
+                "summary_learning_ic10": "Set register to 1 if device is set."
+            },
+            "sdns": {
+                "description": "Set if Device Not Set. Sets a register to 1 if the specified device is 'not set' (usually means not configured or inactive), otherwise 0.",
+                "syntax": "sdns r? d?",
+                "category": "comparison_device_pin",
+                "summary_learning_ic10": "Set register to 1 if device is NOT set."
+            },
+            "comparison_value": {
+                "description": "Sub-category for value comparison instructions (set register based on specific value comparisons).",
+                "instructions": ["sltz", "slez", "sgtz", "sgez", "seqz", "snez", "snan", "snanz", "sap", "sapz", "sna", "snaz"]
+            },
+            "sltz": {
+                "description": "Set if Less Than Zero. Sets a register to 1 if the value is less than 0, otherwise 0.",
+                "syntax": "sltz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a < 0."
+            },
+            "slez": {
+                "description": "Set if Less or Equal to Zero. Sets a register to 1 if the value is less than or equal to 0, otherwise 0.",
+                "syntax": "slez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a <= 0."
+            },
+            "sgtz": {
+                "description": "Set if Greater Than Zero. Sets a register to 1 if the value is greater than 0, otherwise 0.",
+                "syntax": "sgtz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a > 0."
+            },
+            "sgez": {
+                "description": "Set if Greater or Equal to Zero. Sets a register to 1 if the value is greater than or equal to 0, otherwise 0.",
+                "syntax": "sgez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a >= 0."
+            },
+            "seqz": {
+                "description": "Set if Equal to Zero. Sets a register to 1 if the value is equal to 0, otherwise 0.",
+                "syntax": "seqz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a == 0."
+            },
+            "snez": {
+                "description": "Set if Not Equal to Zero. Sets a register to 1 if the value is not equal to 0, otherwise 0.",
+                "syntax": "snez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a != 0."
+            },
+            "snan": {
+                "description": "Set if Is NaN. Sets a register to 1 if the value is NaN (Not-a-Number), otherwise 0.",
+                "syntax": "snan r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a == NaN."
+            },
+            "snanz": {
+                "description": "Set if Is NOT NaN. Sets a register to 1 if the value is NOT NaN (is a valid number), otherwise 0.",
+                "syntax": "snanz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a != NaN (is a number)."
+            },
+            "sap": {
+                "description": "Set if Approximately Equal. Sets a register to 1 if the first value is approximately equal to the second value within a tolerance, otherwise 0. Tolerance is dynamically calculated as: `max(c * max(abs(a), abs(b)), float.epsilon * 8)`",
+                "syntax": "sap r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a ≈ b (approximately equal).",
+                "tolerance_formula": "max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "sapz": {
+                "description": "Set if Approximately Zero. Sets a register to 1 if the value is approximately zero within a tolerance, otherwise 0. Tolerance is dynamically calculated as: `max(b * abs(a), float.epsilon * 8)`",
+                "syntax": "sapz r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a ≈ 0 (approximately zero).",
+                "tolerance_formula": "max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "sna": {
+                "description": "Set if Not Approximately Equal. Sets a register to 1 if the first value is NOT approximately equal to the second value (outside of tolerance), otherwise 0. Tolerance is dynamically calculated as: `max(c * max(abs(a), abs(b)), float.epsilon * 8)`",
+                "syntax": "sna r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a <binary data, 1 bytes><binary data, 1 bytes> b (not approximately equal).",
+                "tolerance_formula": "max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "snaz": {
+                "description": "Set if Not Approximately Zero. Sets a register to 1 if the value is NOT approximately zero (outside of tolerance), otherwise 0. Tolerance is dynamically calculated as: `max(b * abs(a), float.epsilon)`",
+                "syntax": "snaz r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set register to 1 if a <binary data, 1 bytes><binary data, 1 bytes> 0 (not approximately zero).",
+                "tolerance_formula": "max(b * abs(a), float.epsilon)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy.",
+                "note": "*Potential Documentation Inconsistency*: Tolerance formula uses `float.epsilon` while approximate equality/zero functions use `float.epsilon * 8`. May need verification for consistency."
+            },
+            "branching_basic": {
+                "description": "Sub-category for basic branching instructions (conditional and unconditional jumps).",
+                "instructions": ["j", "jal", "jr"]
+            },
+            "jal": {
+                "description": "Jump and Link. Unconditional jump to a subroutine (specified line/label). Stores the address of the next instruction in the 'ra' (return address) register before jumping. Used for function calls.",
+                "syntax": "jal a(r?|num)",
+                "category": "branching_basic",
+                "summary_learning_ic10": "Jump to subroutine and store return address in 'ra'."
+            },
+            "jr": {
+                "description": "Jump to Return Address. Unconditional jump to the address stored in the 'ra' (return address) register. Used to return from subroutines/functions.",
+                "syntax": "jr ra",
+                "category": "branching_basic",
+                "summary_learning_ic10": "Jump to return address (return from subroutine)."
+            },
+            "branching_device_pin": {
+                "description": "Sub-category for branching instructions based on device pin/device set status.",
+                "instructions": ["bdse", "bdns", "bdseal", "bdnsal", "brdse", "brdns"]
+            },
+            "bdse": {
+                "description": "Branch if Device Set. Conditional branch to a specified line/label if a device is 'set' (active/configured).",
+                "syntax": "bdse d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch - Device IS SET."
+            },
+            "bdns": {
+                "description": "Branch if Device Not Set. Conditional branch to a specified line/label if a device is 'not set' (inactive/not configured).",
+                "syntax": "bdns d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch - Device NOT SET."
+            },
+            "bdseal": {
+                "description": "Branch if Device Set And Link. Conditional jump and link to a subroutine if a device is 'set'. Stores return address in 'ra'.",
+                "syntax": "bdseal d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch and Link - Device IS SET."
+            },
+            "bdnsal": {
+                "description": "Branch if Device Not Set And Link. Conditional jump and link to a subroutine if a device is 'not set'. Stores return address in 'ra'.",
+                "syntax": "bdnsal d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch and Link - Device NOT SET."
+            },
+            "brdse": {
+                "description": "Branch Relative if Device Set. Conditional relative branch to a line offset if a device is 'set'.",
+                "syntax": "brdse d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Relative Branch - Device IS SET."
+            },
+            "brdns": {
+                "description": "Branch Relative if Device Not Set. Conditional relative branch to a line offset if a device is 'not set'.",
+                "syntax": "brdns d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Relative Branch - Device NOT SET."
+            },
+            "branching_comparison_value": {
+                "description": "Sub-category for branching instructions based on value comparisons.",
+                "instructions": ["beq", "bne", "blt", "ble", "bgt", "bge", "beqz", "bnez", "bltz", "blez", "bgtz", "bgez", "bnan", "brnan", "bap", "bna", "bapz", "bnaz", "breq", "brne", "brlt", "brle", "brgt", "brge", "breqz", "brnez", "brltz", "brlez", "brgtz", "brgez", "bneal", "beqal", "bltal", "bleal", "bgtal", "bgeal", "bnezal", "beqzal", "bltzal", "blezal", "bgtzal", "bgezal", "bapal", "bnaal", "bapzal", "bnazal"]
+            },
+            "beq": {
+                "description": "Branch to line c if a == b",
+                "syntax": "beq a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Equality (a == b)",
+                "condition_category": "Equality",
+                "cheatsheet_suffix": "-eq",
+                "related_instructions": [
+                    "breq",
+                    "beqal",
+                    "seq",
+                    "beqz",
+                    "beqzal",
+                    "breqz",
+                    "seqz"
+                ]
+            },
+            "beqal": {
+                "description": "Branch to line c if a == b and store next line number in ra",
+                "syntax": "beqal a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Equality (a == b)",
+                "condition_category": "Equality",
+                "cheatsheet_suffix": "-eq",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "seq",
+                    "beqz",
+                    "beqzal",
+                    "breqz",
+                    "seqz"
+                ]
+            },
+            "breq": {
+                "description": "Relative branch to line c if a == b",
+                "syntax": "breq a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Equality (a == b)",
+                "condition_category": "Equality",
+                "cheatsheet_suffix": "-eq",
+                "related_instructions": [
+                    "beq",
+                    "beqal",
+                    "seq",
+                    "beqz",
+                    "beqzal",
+                    "breqz",
+                    "seqz"
+                ]
+            },
+            "seqz": {
+                "description": "Register = 1 if a == 0, otherwise 0",
+                "syntax": "seqz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Equal to Zero (a == 0)",
+                "condition_category": "Equality to Zero",
+                "cheatsheet_suffix": "-eqz",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "beqal",
+                    "seq",
+                    "beqz",
+                    "beqzal",
+                    "breqz"
+                ]
+            },
+            "breqz": {
+                "description": "Relative branch to line b if a == 0",
+                "syntax": "breqz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Equal to Zero (a == 0)",
+                "condition_category": "Equality to Zero",
+                "cheatsheet_suffix": "-eqz",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "beqal",
+                    "seq",
+                    "beqz",
+                    "beqzal",
+                    "seqz"
+                ]
+            },
+            "beqzal": {
+                "description": "Branch to line b if a == 0 and store next line number in ra",
+                "syntax": "beqzal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Equal to Zero (a == 0)",
+                "condition_category": "Equality to Zero",
+                "cheatsheet_suffix": "-eqz",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "beqal",
+                    "seq",
+                    "beqz",
+                    "breqz",
+                    "seqz"
+                ]
+            },
+            "beqz": {
+                "description": "Branch to line b if a == 0",
+                "syntax": "beqz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Equal to Zero (a == 0)",
+                "condition_category": "Equality to Zero",
+                "cheatsheet_suffix": "-eqz",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "beqal",
+                    "seq",
+                    "beqzal",
+                    "breqz",
+                    "seqz",
+                    "breqz",
+                    "beqzal"
+                ]
+            },
+            "seq": {
+                "description": "Register = 1 if a == b, otherwise 0",
+                "syntax": "seq r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Equality (a == b)",
+                "condition_category": "Equality",
+                "cheatsheet_suffix": "-eq",
+                "related_instructions": [
+                    "beq",
+                    "breq",
+                    "beqal",
+                    "beqz",
+                    "beqzal",
+                    "breqz",
+                    "seqz"
+                ]
+            },
+            "bge": {
+                "description": "Branch to line c if a >= b",
+                "syntax": "bge a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Greater or Equal (a >= b)",
+                "condition_category": "Greater or Equal",
+                "cheatsheet_suffix": "-ge",
+                "related_instructions": [
+                    "brge",
+                    "bgeal",
+                    "sge",
+                    "bgez",
+                    "bgezal",
+                    "brgez",
+                    "sgez"
+                ]
+            },
+            "sgez": {
+                "description": "Register = 1 if a >= 0, otherwise 0",
+                "syntax": "sgez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Greater or Equal to Zero (a >= 0)",
+                "condition_category": "Greater or Equal to Zero",
+                "cheatsheet_suffix": "-gez",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "brge",
+                    "sge",
+                    "bgez",
+                    "bgezal",
+                    "brgez"
+                ]
+            },
+            "brgez": {
+                "description": "Relative branch to line b if a >= 0",
+                "syntax": "brgez a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Greater or Equal to Zero (a >= 0)",
+                "condition_category": "Greater or Equal to Zero",
+                "cheatsheet_suffix": "-gez",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "brge",
+                    "sge",
+                    "bgez",
+                    "bgezal",
+                    "sgez"
+                ]
+            },
+            "bgezal": {
+                "description": "Branch to line b if a >= 0 and store next line number in ra",
+                "syntax": "bgezal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Greater or Equal to Zero (a >= 0)",
+                "condition_category": "Greater or Equal to Zero",
+                "cheatsheet_suffix": "-gez",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "brge",
+                    "sge",
+                    "bgez",
+                    "brgez",
+                    "sgez"
+                ]
+            },
+            "bgez": {
+                "description": "Branch to line b if a >= 0",
+                "syntax": "bgez a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Greater or Equal to Zero (a >= 0)",
+                "condition_category": "Greater or Equal to Zero",
+                "cheatsheet_suffix": "-gez",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "brge",
+                    "sge",
+                    "bgezal",
+                    "brgez",
+                    "sgez"
+                ]
+            },
+            "sge": {
+                "description": "Register = 1 if a >= b, otherwise 0",
+                "syntax": "sge r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Greater or Equal (a >= b)",
+                "condition_category": "Greater or Equal",
+                "cheatsheet_suffix": "-ge",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "brge",
+                    "bgez",
+                    "bgezal",
+                    "brgez",
+                    "sgez"
+                ]
+            },
+            "brge": {
+                "description": "Relative jump to line c if a >= b",
+                "syntax": "brge a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Greater or Equal (a >= b)",
+                "condition_category": "Greater or Equal",
+                "cheatsheet_suffix": "-ge",
+                "related_instructions": [
+                    "bge",
+                    "bgeal",
+                    "sge",
+                    "bgez",
+                    "bgezal",
+                    "brgez",
+                    "sgez"
+                ]
+            },
+            "bgt": {
+                "description": "Branch to line c if a > b\nExample:\nAn example of a Schmitt trigger, turning on a device if the temperature is too low, and turning it off if it's too high and finally doing nothing if the temperature is within the desired range.\nalias sensor d0\nalias device d1\n\ndefine mintemp 293.15\ndefine maxtemp 298.15\n\nstart:\nyield\nl r0 sensor Temperature\n# If the temperature < mintemp, turn on the device\nblt r0 mintemp turnOn\n# If the temperature > maxtemp, turn off the device\nbgt r0 maxtemp turnOff\nj start\n\nturnOn:\ns device On 1\nj start\nturnOff:\ns device On 0\nj start",
+                "syntax": "bgt a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Greater Than (a > b)",
+                "condition_category": "Greater Than",
+                "cheatsheet_suffix": "-gt",
+                "related_instructions": [
+                    "brgt",
+                    "bgtal",
+                    "sgt",
+                    "bgtz",
+                    "bgtzal",
+                    "brgtz",
+                    "sgtz"
+                ]
+            },
+            "sgtz": {
+                "description": "Register = 1 if a > 0, otherwise 0",
+                "syntax": "sgtz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Greater Than Zero (a > 0)",
+                "condition_category": "Greater Than Zero",
+                "cheatsheet_suffix": "-gtz",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "brgt",
+                    "sgt",
+                    "bgtz",
+                    "bgtzal",
+                    "brgtz"
+                ]
+            },
+            "brgtz": {
+                "description": "Relative branch to line b if a > 0",
+                "syntax": "brgtz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Greater Than Zero (a > 0)",
+                "condition_category": "Greater Than Zero",
+                "cheatsheet_suffix": "-gtz",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "brgt",
+                    "sgt",
+                    "bgtz",
+                    "bgtzal",
+                    "sgtz"
+                ]
+            },
+            "bgtzal": {
+                "description": "Branch to line b if a > 0 and store next line number in ra",
+                "syntax": "bgtzal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Greater Than Zero (a > 0)",
+                "condition_category": "Greater Than Zero",
+                "cheatsheet_suffix": "-gtz",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "brgt",
+                    "sgt",
+                    "bgtz",
+                    "brgtz",
+                    "sgtz"
+                ]
+            },
+            "bgtz": {
+                "description": "Branch to line b if a > 0",
+                "syntax": "bgtz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Greater Than Zero (a > 0)",
+                "condition_category": "Greater Than Zero",
+                "cheatsheet_suffix": "-gtz",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "brgt",
+                    "sgt",
+                    "bgtzal",
+                    "brgtz",
+                    "sgtz"
+                ]
+            },
+            "sgt": {
+                "description": "Register = 1 if a > b, otherwise 0",
+                "syntax": "sgt r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Greater Than (a > b)",
+                "condition_category": "Greater Than",
+                "cheatsheet_suffix": "-gt",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "brgt",
+                    "bgtz",
+                    "bgtzal",
+                    "brgtz",
+                    "sgtz"
+                ]
+            },
+            "brgt": {
+                "description": "relative jump to line c if a > b",
+                "syntax": "brgt a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Greater Than (a > b)",
+                "condition_category": "Greater Than",
+                "cheatsheet_suffix": "-gt",
+                "related_instructions": [
+                    "bgt",
+                    "bgtal",
+                    "sgt",
+                    "bgtz",
+                    "bgtzal",
+                    "brgtz",
+                    "sgtz"
+                ]
+            },
+            "ble": {
+                "description": "Branch to line c if a <= b",
+                "syntax": "ble a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Less or Equal (a <= b)",
+                "condition_category": "Less or Equal",
+                "cheatsheet_suffix": "-le",
+                "related_instructions": [
+                    "brle",
+                    "bleal",
+                    "sle",
+                    "blez",
+                    "blezal",
+                    "brlez",
+                    "slez"
+                ]
+            },
+            "slez": {
+                "description": "Register = 1 if a <= 0, otherwise 0",
+                "syntax": "slez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Less or Equal to Zero (a <= 0)",
+                "condition_category": "Less or Equal to Zero",
+                "cheatsheet_suffix": "-lez",
+                "related_instructions": [
+                    "ble",
+                    "bleal",
+                    "brle",
+                    "sle",
+                    "blez",
+                    "blezal",
+                    "brlez"
+                ]
+            },
+            "brlez":
+                {
+                    "description": "Relative branch to line b if a <= 0",
+                    "syntax": "brlez a(r?|num) b(r?|num)",
+                    "category": "branching_comparison_value",
+                    "summary_learning_ic10": "Conditional Relative Branch - Less or Equal to Zero (a <= 0)",
+                    "condition_category": "Less or Equal to Zero",
+                    "cheatsheet_suffix": "-lez",
+                    "related_instructions": [
+                        "ble",
+                        "bleal",
+                        "brle",
+                        "sle",
+                        "blez",
+                        "blezal",
+                        "slez"
+                    ]
+            },
+            "blezal": {
+                "description": "Branch to line b if a <= 0 and store next line number in ra",
+                "syntax": "blezal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Less or Equal to Zero (a <= 0)",
+                "condition_category": "Less or Equal to Zero",
+                "cheatsheet_suffix": "-lez",
+                "related_instructions": [
+                    "ble",
+                    "bleal",
+                    "brle",
+                    "sle",
+                    "blez",
+                    "brlez",
+                    "slez"
+                ]
+            },
+            "blez": {
+                "description": "Branch to line b if a <= 0",
+                "syntax": "blez a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Less or Equal to Zero (a <= 0)",
+                "condition_category": "Less or Equal to Zero",
+                "cheatsheet_suffix": "-lez",
+                "related_instructions": [
+                    "ble",
+                    "bleal",
+                    "brle",
+                    "sle",
+                    "blezal",
+                    "brlez",
+                    "slez"
+                ]
+            },
+            "sle": {
+                "description": "Register = 1 if a <= b, otherwise 0",
+                "syntax": "sle r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Less or Equal (a <= b)",
+                "condition_category": "Less or Equal",
+                "cheatsheet_suffix": "-le",
+                "related_instructions": [
+                    "ble",
+                    "bleal",
+                    "brle",
+                    "blez",
+                    "blezal",
+                    "brlez",
+                    "slez"
+                ]
+            },
+            "brle": {
+                "description": "Relative jump to line c if a <= b",
+                "syntax": "brle a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Less or Equal (a <= b)",
+                "condition_category": "Less or Equal",
+                "cheatsheet_suffix": "-le",
+                "related_instructions": [
+                    "ble",
+                    "bleal",
+                    "sle",
+                    "blez",
+                    "blezal",
+                    "brlez",
+                    "slez"
+                ]
+            },
+            "blt": {
+                "description": "Branch to line c if a < b\nExample:\nAn example of a Schmitt trigger, turning on a device if the temperature is too low, and turning it off if it's too high and finally doing nothing if the temperature is within the desired range.\nalias sensor d0\nalias device d1\n\ndefine mintemp 293.15\ndefine maxtemp 298.15\n\nstart:\nyield\nl r0 sensor Temperature\n# If the temperature < mintemp, turn on the device\nblt r0 mintemp turnOn\n# If the temperature > maxtemp, turn off the device\nbgt r0 maxtemp turnOff\nj start\n\nturnOn:\ns device On 1\nj start\nturnOff:\ns device On 0\nj start",
+                "syntax": "blt a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Less Than (a < b)",
+                "condition_category": "Less Than",
+                "cheatsheet_suffix": "-lt",
+                "related_instructions": [
+                    "brlt",
+                    "bltal",
+                    "slt",
+                    "bltz",
+                    "bltzal",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "sltz": {
+                "description": "Register = 1 if a < 0, otherwise 0",
+                "syntax": "sltz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Less Than Zero (a < 0)",
+                "condition_category": "Less Than Zero",
+                "cheatsheet_suffix": "-ltz",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "brlt",
+                    "slt",
+                    "bltzal",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "brltz": {
+                "description": "Relative branch to line b if a < 0",
+                "syntax": "brltz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Less Than Zero (a < 0)",
+                "condition_category": "Less Than Zero",
+                "cheatsheet_suffix": "-ltz",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "brlt",
+                    "slt",
+                    "bltz",
+                    "bltzal",
+                    "sltz"
+                ]
+            },
+            "bltzal": {
+                "description": "Branch to line b if a < 0 and store next line number in ra",
+                "syntax": "bltzal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Less Than Zero (a < 0)",
+                "condition_category": "Less Than Zero",
+                "cheatsheet_suffix": "-ltz",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "brlt",
+                    "slt",
+                    "bltz",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "bltz": {
+                "description": "Branch to line b if a < 0",
+                "syntax": "bltz a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Less Than Zero (a < 0)",
+                "condition_category": "Less Than Zero",
+                "cheatsheet_suffix": "-ltz",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "brlt",
+                    "slt",
+                    "bltzal",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "slt": {
+                "description": "Register = 1 if a < b, otherwise 0",
+                "syntax": "slt r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Less Than (a < b)",
+                "condition_category": "Less Than",
+                "cheatsheet_suffix": "-lt",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "brlt",
+                    "bltz",
+                    "bltzal",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "brlt": {
+                "description": "Relative jump to line c if a < b",
+                "syntax": "brlt a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Less Than (a < b)",
+                "condition_category": "Less Than",
+                "cheatsheet_suffix": "-lt",
+                "related_instructions": [
+                    "blt",
+                    "bltal",
+                    "slt",
+                    "bltz",
+                    "bltzal",
+                    "brltz",
+                    "sltz"
+                ]
+            },
+            "bne": {
+                "description": "Branch to line c if a != b",
+                "syntax": "bne a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Not Equal (a != b)",
+                "condition_category": "Not Equal",
+                "cheatsheet_suffix": "-ne",
+                "related_instructions": [
+                    "brne",
+                    "bneal",
+                    "sne",
+                    "bnez",
+                    "bnezal",
+                    "brnez",
+                    "snez"
+                ]
+            },
+            "snez": {
+                "description": "Register = 1 if a != 0, otherwise 0",
+                "syntax": "snez r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Not Equal to Zero (a != 0)",
+                "condition_category": "Not Equal to Zero",
+                "cheatsheet_suffix": "-nez",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "brne",
+                    "sne",
+                    "bnez",
+                    "bnezal",
+                    "brnez"
+                ]
+            },
+            "brnez": {
+                "description": "Relative branch to line b if a != 0",
+                "syntax": "brnez a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Not Equal to Zero (a != 0)",
+                "condition_category": "Not Equal to Zero",
+                "cheatsheet_suffix": "-nez",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "brne",
+                    "sne",
+                    "bnez",
+                    "bnezal",
+                    "snez"
+                ]
+            },
+            "bnezal": {
+                "description": "Branch to line b if a != 0 and store next line number in ra",
+                "syntax": "bnezal a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Not Equal to Zero (a != 0)",
+                "condition_category": "Not Equal to Zero",
+                "cheatsheet_suffix": "-nez",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "brne",
+                    "sne",
+                    "bnez",
+                    "brnez",
+                    "snez"
+                ]
+            },
+            "bnez": {
+                "description": "branch to line b if a != 0",
+                "syntax": "bnez a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Not Equal to Zero (a != 0)",
+                "condition_category": "Not Equal to Zero",
+                "cheatsheet_suffix": "-nez",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "brne",
+                    "sne",
+                    "bnezal",
+                    "brnez",
+                    "snez"
+                ]
+            },
+            "sne": {
+                "description": "Register = 1 if a != b, otherwise 0",
+                "syntax": "sne r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Not Equal (a != b)",
+                "condition_category": "Not Equal",
+                "cheatsheet_suffix": "-ne",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "brne",
+                    "bnez",
+                    "bnezal",
+                    "brnez",
+                    "snez"
+                ]
+            },
+            "brne": {
+                "description": "Relative branch to line c if a != b",
+                "syntax": "brne a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Not Equal (a != b)",
+                "condition_category": "Not Equal",
+                "cheatsheet_suffix": "-ne",
+                "related_instructions": [
+                    "bne",
+                    "bneal",
+                    "sne",
+                    "bnez",
+                    "bnezal",
+                    "brnez",
+                    "snez"
+                ]
+            },
+            "bnan": {
+                "description": "Branch to line b if a is not a number (NaN)",
+                "syntax": "bnan a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Is NaN (a == NaN)",
+                "condition_category": "Is NaN",
+                "cheatsheet_suffix": "-nan",
+                "related_instructions": [
+                    "brnan",
+                    "snan"
+                ]
+            },
+            "snan": {
+                "description": "Register = 1 if a is NaN, otherwise 0",
+                "syntax": "snan r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Is NaN (a == NaN)",
+                "condition_category": "Is NaN",
+                "cheatsheet_suffix": "-nan",
+                "related_instructions": [
+                    "bnan",
+                    "brnan"
+                ]
+            },
+            "brnan": {
+                "description": "Relative branch to line b if a is not a number (NaN)",
+                "syntax": "brnan a(r?|num) b(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Is NaN (a == NaN)",
+                "condition_category": "Is NaN",
+                "cheatsheet_suffix": "-nan",
+                "related_instructions": [
+                    "bnan",
+                    "snan"
+                ]
+            },
+            "snanz": {
+                "description": "Register = 0 if a is NaN, otherwise 1",
+                "syntax": "snanz r? a(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Is NOT NaN (Is a Number)",
+                "condition_category": "Is NOT NaN",
+                "cheatsheet_suffix": "-nanz",
+                "related_instructions": []
+            },
+            "bdns": {
+                "description": "Branch to line a if device d isn't set",
+                "syntax": "bdns d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch - Device NOT SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dns",
+                "related_instructions": [
+                    "bdnsal",
+                    "brdns",
+                    "sdns"
+                ]
+            },
+            "sdns": {
+                "description": "Register = 1 if device is not set, otherwise 0",
+                "syntax": "sdns r? d?",
+                "category": "comparison_device_pin",
+                "summary_learning_ic10": "Set Register - Device NOT SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dns",
+                "related_instructions": [
+                    "bdns",
+                    "bdnsal",
+                    "brdns"
+                ]
+            },
+            "brdns": {
+                "description": "Relative jump to line a if device is not set",
+                "syntax": "brdns d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Relative Branch - Device NOT SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dns",
+                "related_instructions": [
+                    "bdns",
+                    "bdnsal",
+                    "sdns"
+                ]
+            },
+            "bdseal": {
+                "description": "Jump execution to line a and store next line number if device is set",
+                "syntax": "bdseal d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch and Link - Device IS SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dse",
+                "related_instructions": [
+                    "bdse",
+                    "brdse",
+                    "sdse"
+                ]
+            },
+            "sdse": {
+                "description": "Register = 1 if device is set, otherwise 0.",
+                "syntax": "sdse r? d?",
+                "category": "comparison_device_pin",
+                "summary_learning_ic10": "Set Register - Device IS SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dse",
+                "related_instructions": [
+                    "bdse",
+                    "bdseal",
+                    "brdse"
+                ]
+            },
+            "brdse": {
+                "description": "Relative jump to line a if device is set",
+                "syntax": "brdse d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Relative Branch - Device IS SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dse",
+                "related_instructions": [
+                    "bdse",
+                    "bdseal",
+                    "sdse"
+                ]
+            },
+            "bdse": {
+                "description": "Branch to line a if device d is set",
+                "syntax": "bdse d? a(r?|num)",
+                "category": "branching_device_pin",
+                "summary_learning_ic10": "Conditional Branch - Device IS SET",
+                "condition_category": "Device Status",
+                "cheatsheet_suffix": "-dse",
+                "related_instructions": [
+                    "bdseal",
+                    "brdse",
+                    "sdse"
+                ]
+            },
+            "bap": {
+                "description": "Branch to line d if abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "syntax": "bap a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Approximately Equal",
+                "condition_category": "Approximate Equality",
+                "cheatsheet_suffix": "-ap",
+                "related_instructions": [
+                    "brap",
+                    "bapal",
+                    "sap"
+                ],
+                "tolerance_formula": "abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "sap": {
+                "description": "Register = 1 if abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8), otherwise 0",
+                "syntax": "sap r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Approximately Equal",
+                "condition_category": "Approximate Equality",
+                "cheatsheet_suffix": "-ap",
+                "related_instructions": [
+                    "bap",
+                    "bapal",
+                    "brap"
+                ],
+                "tolerance_formula": "abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "brap": {
+                "description": "Relative branch to line d if abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "syntax": "brap a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Approximately Equal",
+                "condition_category": "Approximate Equality",
+                "cheatsheet_suffix": "-ap",
+                "related_instructions": [
+                    "bap",
+                    "bapal",
+                    "sap"
+                ],
+                "tolerance_formula": "abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "bapal": {
+                "description": "*Correction Notice*: Documentation condition `abs(a - b) <= ...` contradicts name and other `bap` instructions. Likely doc error and should be \"Branch to line d if a is approximately equal to b and store next line number in ra\".  Documenting as written in source for now, but flagging for potential correction.",
+                "syntax": "bapal a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Approximately Equal (*potential doc error, may check for NOT equal instead*)",
+                "condition_category": "Approximate Equality",
+                "cheatsheet_suffix": "-ap",
+                "related_instructions": [
+                    "bap",
+                    "brap",
+                    "sap"
+                ],
+                "tolerance_formula": "abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy.",
+                "note": "*Potential Documentation Error*: Instruction name suggests Approximate Equality, but original documentation text description condition is 'a != b'. Condition likely should align with other -ap instructions (approximate equality)."
+            },
+            "bapz": {
+                "description": "Branch to line c if abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "syntax": "bapz a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Approximately Zero",
+                "condition_category": "Approximate Zero",
+                "cheatsheet_suffix": "-apz",
+                "related_instructions": [
+                    "brapz",
+                    "bapzal",
+                    "sapz"
+                ],
+                "tolerance_formula": "abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "sapz": {
+                "description": "Register = 1 if abs(a) <= max(b * abs(a), float.epsilon * 8), otherwise 0",
+                "syntax": "sapz r? a(r?|num) b(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Approximately Zero",
+                "condition_category": "Approximate Zero",
+                "cheatsheet_suffix": "-apz",
+                "related_instructions": [
+                    "bapz",
+                    "bapzal",
+                    "brapz"
+                ],
+                "tolerance_formula": "abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "brapz": {
+                "description": "Relative branch to line c if abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "syntax": "brapz a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Approximately Zero",
+                "condition_category": "Approximate Zero",
+                "cheatsheet_suffix": "-apz",
+                "related_instructions": [
+                    "bapz",
+                    "bapzal",
+                    "sapz"
+                ],
+                "tolerance_formula": "abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "bapzal": {
+                "description": "Branch to line c if abs(a) <= max(b * abs(a), float.epsilon * 8) and store next line number in ra",
+                "syntax": "bapzal a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Approximately Zero",
+                "condition_category": "Approximate Zero",
+                "cheatsheet_suffix": "-apz",
+                "related_instructions": [
+                    "bapz",
+                    "brapz",
+                    "sapz"
+                ],
+                "tolerance_formula": "abs(a) <= max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "bna": {
+                "description": "Branch to line d if abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "syntax": "bna a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Not Approximately Equal",
+                "condition_category": "Approximate Not Equal",
+                "cheatsheet_suffix": "-na",
+                "related_instructions": [
+                    "brna",
+                    "bnaal",
+                    "sna"
+                ],
+                "tolerance_formula": "abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "sna": {
+                "description": "Register = 1 if abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8), otherwise 0",
+                "syntax": "sna r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Not Approximately Equal",
+                "condition_category": "Approximate Not Equal",
+                "cheatsheet_suffix": "-na",
+                "related_instructions": [
+                    "bna",
+                    "bnaal",
+                    "brna"
+                ],
+                "tolerance_formula": "abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "brna": {
+                "description": "Relative branch to line d if abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "syntax": "brna a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Not Approximately Equal",
+                "condition_category": "Approximate Not Equal",
+                "cheatsheet_suffix": "-na",
+                "related_instructions": [
+                    "bna",
+                    "bnaal",
+                    "sna"
+                ],
+                "tolerance_formula": "abs(a - b) > max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy."
+            },
+            "bnaal": {
+                "description": "*Correction Notice*: Documentation condition `abs(a - b) <= ...` contradicts instruction name. Likely doc error and should be `abs(a - b) > ...` for \"Not Approximately Equal\". Documenting as written in source for now, but flagging for potential correction.",
+                "syntax": "bnaal a(r?|num) b(r?|num) c(r?|num) d(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Not Approximately Equal (*potential doc error, condition may be for Approximate Equal instead*)",
+                "condition_category": "Approximate Not Equal",
+                "cheatsheet_suffix": "-na",
+                "related_instructions": [
+                    "bna",
+                    "brna",
+                    "sna"
+                ],
+                "tolerance_formula": "abs(a - b) <= max(c * max(abs(a), abs(b)), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'c' and the magnitudes of 'a' and 'b', plus a small epsilon for float accuracy.",
+                "note": "*Potential Documentation Error*: Instruction name suggests Not Approximate Equality, but original documentation text description condition is for Approximate Equality. Condition likely should align with other -na instructions (not approximate equality, thus likely '>' not '<=')."
+            },
+            "bnaz": {
+                "description": "Branch to line c if abs(a) > max (b * abs(a), float.epsilon * 8)",
+                "syntax": "bnaz a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch - Not Approximately Zero",
+                "condition_category": "Approximate Not Zero",
+                "cheatsheet_suffix": "-naz",
+                "related_instructions": [
+                    "brnaz",
+                    "bnazal",
+                    "snaz"
+                ],
+                "tolerance_formula": "abs(a) > max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "snaz": {
+                "description": "Register = 1 if abs(a) > max(b * abs(a), float.epsilon), otherwise 0",
+                "syntax": "snaz r? a(r?|num) b(r?|num) c(r?|num)",
+                "category": "comparison_value",
+                "summary_learning_ic10": "Set Register - Not Approximately Zero",
+                "condition_category": "Approximate Not Zero",
+                "cheatsheet_suffix": "-naz",
+                "related_instructions": [
+                    "bnaz",
+                    "bnazal",
+                    "brnaz"
+                ],
+                "tolerance_formula": "abs(a) > max(b * abs(a), float.epsilon)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy.",
+                "note": "*Potential Documentation Inconsistency*: Tolerance formula uses `float.epsilon` while other approximate functions use `float.epsilon * 8`. May need verification for consistency."
+            },
+            "brnaz": {
+                "description": "Relative branch to line c if abs(a) > max(b * abs(a), float.epsilon * 8)",
+                "syntax": "brnaz a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Relative Branch - Not Approximately Zero",
+                "condition_category": "Approximate Not Zero",
+                "cheatsheet_suffix": "-naz",
+                "related_instructions": [
+                    "bnaz",
+                    "bnazal",
+                    "snaz"
+                ],
+                "tolerance_formula": "abs(a) > max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "bnazal": {
+                "description": "Branch to line c if abs(a) > max (b * abs(a), float.epsilon * 8) and store next line number in ra",
+                "syntax": "bnazal a(r?|num) b(r?|num) c(r?|num)",
+                "category": "branching_comparison_value",
+                "summary_learning_ic10": "Conditional Branch and Link - Not Approximately Zero",
+                "condition_category": "Approximate Not Zero",
+                "cheatsheet_suffix": "-naz",
+                "related_instructions": [
+                    "bnaz",
+                    "brnaz",
+                    "snaz"
+                ],
+                "tolerance_formula": "abs(a) > max(b * abs(a), float.epsilon * 8)",
+                "tolerance_explanation": "Tolerance is calculated dynamically based on 'b' and the magnitude of 'a', plus a small epsilon for float accuracy."
+            },
+            "device_variables": {
+                "description": "Category for variables that represent device properties and states. These variables can be read using 'l' and sometimes set using 's' instructions.",
+                "variables_categories": ["device_slot_variables"]
+            },
+            "Color": {
+                "description": "0 (or lower) = Blue, 1 = Grey, 2 = Green, 3 = Orange, 4 = Red, 5 = Yellow, 6 = White, 7 = Black, 8 = Brown, 9 = Khaki, 10 = Pink, 11 (or higher) = Purple",
+                "category": "device_variables",
+                "data_type": "enum",
+                "value_range": {
+                    "0_or_lower": "Blue",
+                    "1": "Grey",
+                    "2": "Green",
+                    "3": "Orange",
+                    "4": "Red",
+                    "5": "Yellow",
+                    "6": "White",
+                    "7": "Black",
+                    "8": "Brown",
+                    "9": "Khaki",
+                    "10": "Pink",
+                    "11_or_higher": "Purple"
+                },
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Color"
+            },
+            "ClearMemory": {
+                "description": "When set to 1, clears the counter memory (e.g. ExportCount). Will set itself back to 0 when triggered.",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ClearMemory"
+            },
+            "Charge": {
+                "description": "The current charge the device has.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Charge"
+            },
+            "AirRelease": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - AirRelease"
+            },
+            "Activate": {
+                "description": "1 if device is activated (usually means running), otherwise 0",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Activate"
+            },
+            "VelocityRelativeZ": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - VelocityRelativeZ"
+            },
+            "VelocityRelativeY": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - VelocityRelativeY"
+            },
+            "VelocityRelativeX": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - VelocityRelativeX"
+            },
+            "VelocityMagnitude": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - VelocityMagnitude"
+            },
+            "Volume": {
+                "description": "Returns the device atmosphere volume",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Volume"
+            },
+            "VerticalRatio": {
+                "description": "Ratio of vertical setting for device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - VerticalRatio"
+            },
+            "Vertical": {
+                "description": "Vertical setting of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Vertical"
+            },
+            "TotalMoles": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - TotalMoles"
+            },
+            "TemperatureSettings": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - TemperatureSettings"
+            },
+            "Temperature": {
+                "description": "Temperature of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Temperature"
+            },
+            "SolarAngle": {
+                "description": "Solar angle of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - SolarAngle"
+            },
+            "Setting": {
+                "description": "Generic device setting. Context-dependent.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Setting"
+            },
+            "RequiredPower": {
+                "description": "Power required by the device to operate.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RequiredPower"
+            },
+            "RequestHash": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RequestHash"
+            },
+            "ReferenceId": {
+                "description": "Unique Identifier of a Device, this value is different for every device in a save.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ReferenceId"
+            },
+            "RecipeHash": {
+                "description": "Hash of the recipe currently active or loaded in the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RecipeHash"
+            },
+            "Reagents": {
+                "description": "Reagents currently in the device. Data structure is likely complex, details TBD.",
+                "category": "device_variables",
+                "data_type": "complex",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Reagents (complex data)"
+            },
+            "RatioWater": {
+                "description": "The ratio of water in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioWater"
+            },
+            "RatioVolatiles": {
+                "description": "The ratio of volatiles in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioVolatiles"
+            },
+            "RatioPollutant": {
+                "description": "The ratio of pollutant in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioPollutant"
+            },
+            "RatioOxygen": {
+                "description": "The ratio of oxygen in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioOxygen"
+            },
+            "RatioNitrogen": {
+                "description": "The ratio of nitrogen in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioNitrogen"
+            },
+            "RatioCarbonDioxide": {
+                "description": "The ratio of carbon dioxide in device atmosphere.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - RatioCarbonDioxide"
+            },
+            "Ratio": {
+                "description": "Context specific value depending on device, 0 to 1 based ratio.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Ratio (context-dependent)"
+            },
+            "Quantity": {
+                "description": "Total quantity in the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Quantity (total in device)"
+            },
+            "PressureSetting": {
+                "description": "Desired pressure setting for devices that control pressure.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PressureSetting"
+            },
+            "PressureInteral": {
+                "description": "Internal pressure of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PressureInteral"
+            },
+            "PressureExternal": {
+                "description": "External pressure around the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PressureExternal"
+            },
+            "Pressure": {
+                "description": "Current pressure of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Pressure (current)"
+            },
+            "PowerRequired": {
+                "description": "Power required for the device to function at maximum capacity.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PowerRequired (max capacity)"
+            },
+            "PowerPotential": {
+                "description": "Potential power output of a power-generating device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PowerPotential (generator output)"
+            },
+            "PowerActual": {
+                "description": "Actual power output of a power-generating device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PowerActual (generator current output)"
+            },
+            "Power": {
+                "description": "Current power level of the device (if it stores power).",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Power (current level)"
+            },
+            "PositionY": {
+                "description": "Y-coordinate position of the device in the game world.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PositionY"
+            },
+            "PositionX": {
+                "description": "X-coordinate position of the device in the game world.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PositionX"
+            },
+            "PositionZ": {
+                "description": "Z-coordinate position of the device in the game world.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - PositionZ"
+            },
+            "Plant": {
+                "description": "Performs the planting operation for any plant based machinery.\ns d0 Plant 1 # Plants one crop in device d0",
+                "category": "device_variables",
+                "data_type": "action",
+                "instruction_association": ["s"],
+                "summary_learning_ic10": "Device Variable - Plant (action trigger)"
+            },
+            "Output": {
+                "description": "Current output level or rate of the device. Context-dependent.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Output (context-dependent)"
+            },
+            "Open": {
+                "description": "State of being open or closed (e.g., door, valve). Likely 1 for open, 0 for closed.",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Open (boolean state)"
+            },
+            "On": {
+                "description": "On/Off state of the device. 1 for On, 0 for Off.",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - On/Off (boolean state)"
+            },
+            "Mode": {
+                "description": "Current operational mode of the device.  Likely numeric or enum.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Mode"
+            },
+            "Maximum": {
+                "description": "Maximum capacity or setting value for the device. Context-dependent.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Maximum (capacity/setting)"
+            },
+            "Lock": {
+                "description": "Lock status of the device. Likely 1 for locked, 0 for unlocked.",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Lock (boolean status)"
+            },
+            "ImportCount": {
+                "description": "Counter for the number of items imported into the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ImportCount"
+            },
+            "Idle": {
+                "description": "Idle state of the device. Likely 1 for idle, 0 for active/working.",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Idle (boolean state)"
+            },
+            "HorizontalRatio": {
+                "description": "Ratio of horizontal setting for device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - HorizontalRatio"
+            },
+            "Horizontal": {
+                "description": "Horizontal setting of the device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Horizontal"
+            },
+            "Harvest": {
+                "description": "Performs the harvesting action for any plant based machinery.\ns d0 Harvest 1 # Performs 1 harvest action on device d0",
+                "category": "device_variables",
+                "data_type": "action",
+                "instruction_association": ["s"],
+                "summary_learning_ic10": "Device Variable - Harvest (action trigger)"
+            },
+            "Filtration": {
+                "description": "The current state of the filtration system. For example filtration = 1 for a Hardsuit when filtration is On.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Filtration (state)"
+            },
+            "ExportCount": {
+                "description": "How many items exported since last ClearMemory.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ExportCount"
+            },
+            "Error": {
+                "description": "1 if device is in error state, otherwise 0",
+                "category": "device_variables",
+                "data_type": "boolean",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - Error (boolean state)"
+            },
+            "ElevatorSpeed": {
+                "description": "Unknown Description.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ElevatorSpeed"
+            },
+            "ElevatorLevel": {
+                "description": "Current level of an elevator device.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - ElevatorLevel"
+            },
+            "CompletionRatio": {
+                "description": "Ratio indicating completion progress. Context-dependent, 0 to 1 based ratio.",
+                "category": "device_variables",
+                "data_type": "numeric",
+                "instruction_association": ["l", "s"],
+                "summary_learning_ic10": "Device Variable - CompletionRatio (progress ratio)"
+            },
+            "device_slot_variables": {
+                "description": "Sub-category for variables that represent properties of items within device slots. Accessed using 'ls' and related slot instructions.",
+                "variables": ["Occupied", "OccupantHash", "Quantity", "Damage", "Efficiency", "Health", "Growth", "Pressure", "Temperature", "Charge", "ChargeRatio", "Class", "PressureWaste", "PressureAir", "MaxQuantity", "Mature", "ReferenceId"]
+            },
+            "Occupied": {
+                "description": "Indicates if a slot is occupied. Example usage shows checking if device d0 slot 2 has 'more seeds'. Likely returns 1 if occupied, 0 if not.",
+                "category": "device_slot_variables",
+                "data_type": "boolean",
+                "slot_association": "2: Inside Machine (General Case - Inferred)",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Occupied"
+            },
+            "OccupantHash": {
+                "description": "Hash identifier of the item occupying the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - OccupantHash"
+            },
+            "Quantity": {
+                "description": "Quantity of items in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Quantity"
+            },
+            "Damage": {
+                "description": "Damage level of the item in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Damage"
+            },
+            "Efficiency": {
+                "description": "Efficiency of the item in the slot. Context-dependent.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Efficiency"
+            },
+            "Health": {
+                "description": "Health of the item in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Health"
+            },
+            "Growth": {
+                "description": "Numerical growth stage of the content in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "0: Import (Inferred from example usage)",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Growth"
+            },
+            "Pressure": {
+                "description": "Pressure within the slot. Context-dependent.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Pressure"
+            },
+            "Temperature": {
+                "description": "Temperature within the slot. Context-dependent.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Temperature"
+            },
+            "Charge": {
+                "description": "Charge of the item in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Charge"
+            },
+            "ChargeRatio": {
+                "description": "Charge ratio of the item in the slot (0 to 1).",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - ChargeRatio"
+            },
+            "Class": {
+                "description": "Class identifier of the item in the slot. Likely a numeric or hash value.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Class"
+            },
+            "PressureWaste": {
+                "description": "Waste pressure within the slot. Context-dependent.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - PressureWaste"
+            },
+            "PressureAir": {
+                "description": "Air pressure within the slot. Context-dependent.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - PressureAir"
+            },
+            "MaxQuantity": {
+                "description": "Maximum quantity allowed in the slot.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - MaxQuantity"
+            },
+            "Mature": {
+                "description": "Indicates if the item in the slot is mature (e.g., crop). Example shows checking slot 0 for mature crop. Likely 1 if mature, 0 if not.",
+                "category": "device_slot_variables",
+                "data_type": "boolean",
+                "slot_association": "0: Import (Inferred from example usage)",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - Mature"
+            },
+            "ReferenceId": {
+                "description": "Unique Identifier of the item in the slot. This value is different for every item instance in a save.",
+                "category": "device_slot_variables",
+                "data_type": "numeric",
+                "slot_association": "General Slot Variable",
+                "instruction_association": ["ls"],
+                "summary_learning_ic10": "Slot Variable - ReferenceId"
+            },
+            "script_examples_categories": {
+                "description": "Category for example IC10 scripts, demonstrating various functionalities and programming patterns.",
+                "script_categories": ["device_automation", "testing_benchmark_utility", "function_call_management"]
+            },
+            "harvie_automation": {
+                "example_name": "Harvie Automation",
+                "description": "This script automates Harvie (planter/harvester) devices using batch commands. It designates one Harvie and Tray as 'master' units, reading sensor data from the Tray to control planting and harvesting actions across all Harvies of the same type on the network.  \n\n**Note:** The script logic has a potential flaw: it jumps to `harvestCrop` if seeds are available in the tray, which might be unintentional. It is more likely intended to plant in this case. The script is documented as written in the original example.",
+                "category": "device_automation",
+                "code": "alias dHarvie d0\nalias dTray d1\n\nalias rHarvieHash r8\nalias rTrayHash r9\nl rHarvieHash dHarvie PrefabHash\nl rTrayHash dTray PrefabHash\n\nmain:\nyield\n#read plant data from the Tray\nls r0 dTray 0 Mature\n#harvestable plants return 1, young plants return 0\n#nothing planted returns -1\nbeq r0 -1 plantCrop\nbeq r0 1 harvestCrop\nls r0 dTray 0 Seeding\n#seeds available returns 1, all seeds picked returns 0\n#plants too young or old for seeds returns -1\nbeq r0 1 harvestCrop\nj main\n\nplantCrop:\n#stop the planting if no seeds available\n#otherwise it will plant nothing repeatedly\nls r0 dHarvie 0 Occupied\nbeq r0 0 main\nsb rHarvieHash Plant 1\nj main\n\nharvestCrop:\nsb rHarvieHash Harvest 1\nj main\n\n### End Script ###",
+                "key_instructions": [
+                    "alias",
+                    "l",
+                    "ls",
+                    "beq",
+                    "sb",
+                    "j",
+                    "yield"
+                ],
+                "notes": [
+                    "Uses 'sb' (Structure Batch) instruction for controlling multiple devices of the same prefab hash.",
+                    "Relies on a 'master' Harvie and Tray to dictate actions for all Harvies.",
+                    "Potential logic flaw: Jumps to 'harvestCrop' when seeds are available; likely intended to plant instead.",
+                    "Demonstrates basic device interaction and conditional logic for automation."
+                ],
+                "devices_used": [
+                    "dHarvie (Harvie Device)",
+                    "dTray (Tray Device)"
+                ],
+                "registers_used": [
+                    "rHarvieHash (r8)",
+                    "rTrayHash (r9)",
+                    "r0"
+                ],
+                "variables_used": [
+                    "PrefabHash",
+                    "Mature",
+                    "Seeding",
+                    "Occupied",
+                    "Plant",
+                    "Harvest"
+                ]
+            },
+            "solar_panel_tracking_2axis": {
+                "example_name": "Solar Panel 2-axis Tracking",
+                "description": "This script implements a 2-axis solar tracking system for multiple solar panels. It uses a daylight sensor (d0 - alias 'sensor') to read horizontal and vertical angles of sunlight and applies these angles to Heavy, HeavyDual, Solar, and SolarDual panel variants using batch commands.  The script also includes a 'reset' routine that sets the panels to a fixed orientation (facing sunrise, vertical angle 0) during nighttime or when daylight is inactive. \n\n**Setup Notes from Script Comments:**\n*   Panels should be placed uniformly.\n*   One panel should be manually set to 15 Vertical (minimum) and 0 Horizontal initially, noting its facing direction.\n*   The daylight sensor should be placed flat, pointing in the same direction as the initially oriented panel, with the cable port facing opposite to the panel's facing direction.",
+                "category": "device_automation",
+                "code": "#2 Axis Solar Tracking adapted from CowsAreEvil.\n#Place all panels in uniform manner.\n#Set one to 15 Vertical(Min value). 0 Horizontal.\n#Take note direction panel faces.\n#Place daylight sensor flat pointing in the direction\n#the panel now faces. (Cable port facing opposite)\n\n#Alias the sensor to d0\nalias sensor d0\n\n# define the Panel variants\ndefine Heavy -934345724\ndefine HeavyDual -1545574413\ndefine Solar -2045627372\ndefine SolarDual -539224550\n\nstart:\nyield\n#Check for daylight.\nl r0 sensor Activate\nbeqz r0 reset\n#Read the Horizontal data.\nl r0 sensor Horizontal\n#Set batch to the panels.\nsb Heavy Horizontal r0\nsb HeavyDual Horizontal r0\nsb Solar Horizontal r0\nsb SolarDual Horizontal r0\n#Read the Vertical data and subtract 90\nl r0 sensor Vertical\nsub r0 90 r0\n#Set batch to the panels.\nsb Heavy Vertical r0\nsb HeavyDual Vertical r0\nsb Solar Vertical r0\nsb SolarDual Vertical r0\nj start\n\nreset:\nyield\nsb Heavy Horizontal 270 #Edit this to face sunrise.\nsb HeavyDual Horizontal 270 #Edit this\nsb Solar Horizontal 270 #Edit this\nsb SolarDual Horizontal 270 #Edit this\nsb Heavy Vertical 0\nsb HeavyDual Vertical 0\nsb Solar Vertical 0\nsb SolarDual Vertical 0\nsleep 10\nj start",
+                "key_instructions": [
+                    "alias",
+                    "define",
+                    "yield",
+                    "l",
+                    "beqz",
+                    "sb",
+                    "sub",
+                    "j",
+                    "sleep"
+                ],
+                "notes": [
+                    "Implements 2-axis solar tracking using a daylight sensor.",
+                    "Uses 'sb' (Structure Batch) to control multiple solar panels of different variants simultaneously.",
+                    "Includes a 'reset' function to orient panels at sunrise/night.",
+                    "Demonstrates conditional logic ('beqz') for day/night detection and different control flows.",
+                    "Relies on specific physical setup of panels and sensor for correct operation (as noted in description)."
+                ],
+                "devices_used": [
+                    "sensor (Daylight Sensor)",
+                    "Heavy (Heavy Solar Panel Variant)",
+                    "HeavyDual (Heavy Dual Solar Panel Variant)",
+                    "Solar (Solar Panel Variant)",
+                    "SolarDual (Solar Dual Solar Panel Variant)"
+                ],
+                "registers_used": ["r0"],
+                "variables_used": [
+                    "Activate",
+                    "Horizontal",
+                    "Vertical"
+                ]
+            },
+            "code_execution_speed_test": {
+                "example_name": "Code Execution Speed Test (Lines per Tick)",
+                "description": "This script is designed as an experiment to determine the number of IC10 code lines that can be executed within a single game tick (without using `yield`). It avoids `yield` to maximize execution speed and uses a minimal instruction set and no labels to minimize the script length itself (except for the jump target at line 1). The script increments a register (`r0`) and displays its value on an IC Housing Display (`db` alias assumed). The increasing value displayed on the IC Housing every 0.5 seconds reflects the number of lines executed per tick.\n\n**Experiment Results & Observations:**\n*   Observed output values increase roughly every 0.5 seconds, incrementing by approximately 128 each time (sequence: 127, 256, 385, 511, 640, 769, 895, 1024, 1153).\n*   The increment pattern (+129, +129, +126 repeating) suggests a base value of 128 lines per tick.\n*   Further experimentation indicated that empty lines in the script are also counted towards this line execution limit.",
+                "category": "testing_benchmark_utility",
+                "code": "move r0 1   #the first line has number 0\nadd r0 r0 3\ns db Setting r0\nj 1",
+                "key_instructions": [
+                    "move",
+                    "add",
+                    "s",
+                    "j"
+                ],
+                "notes": [
+                    "Micro-benchmark script to measure IC10 execution speed in lines per tick.",
+                    "Crucially omits 'yield' to test maximum execution.",
+                    "Uses minimal code and no labels (except implicit line number target for 'j') to reduce script line count overhead.",
+                    "Employs IC Housing Display ('db' alias assumed) to visualize the counter.",
+                    "Experiment suggests approximately 128 lines of code are executed per tick.",
+                    "Empty lines are also counted towards the execution limit."
+                ],
+                "devices_used": ["db (IC Housing Display)"],
+                "registers_used": ["r0"],
+                "variables_used": ["Setting (IC Housing Display Setting)"]
+            },
+            "nested_function_calls_ra_management": {
+                "example_name": "Nested Function Calls and Return Address Management",
+                "description": "This example demonstrates how to handle nested function calls in IC10 code by using the stack to save and restore return addresses (`ra`). It addresses the issue of `jal` instructions overwriting the `ra` register when functions call other functions, which would lead to incorrect program flow in multi-level function calls.\n\nThe example presents two functions: `orientPanelsToStar` and `orientPanelsTo`. `orientPanelsToStar` intends to call `orientPanelsTo`. To correctly return from `orientPanelsTo` back to `orientPanelsToStar` and then from `orientPanelsToStar` to its original caller, `orientPanelsToStar` must save its return address before calling `orientPanelsTo` and restore it afterward.\n\nThe script emphasizes the use of `push ra` to save the return address onto the stack before a nested `jal` call and `pop ra` to retrieve it after the nested function returns. It contrasts this with an incorrect and limited approach of simply moving `ra` to another register, which only allows for one level of nesting.  The correct `push/pop ra` method allows for a significantly deeper function call stack (up to 512 levels).\n\n**Initialization Note:** The documentation recommends starting scripts that use `push/pop` with `clr db` (clear Data Bank) to ensure a clean stack, especially when the IC10 chip is in an IC Housing. This avoids potential stack residue from previous executions. However, `clr db` will cause an error if the IC10 is directly in a device slot (like an Air Conditioner).",
+                "category": "function_call_management",
+                "code": "orientPanelsToStar:\n# Save return address set by the 'jal' instruction\npush ra\n\n# ...Calculate panels' orientation, for example leaving the results in r0 and r1...\n\n# Now call orientPanelsTo to actually set the panels' orientation\n# based on the computed values of r0 and r1.\njal orientPanelsTo\n\n# ...Call other functions here if desired...\n\n# Restore the return address of orientPanelsToStar itself\npop ra\n# Return to caller\nj ra\n\n##########\n\norientPanelsTo:\n# ...Actually set panels' orientation...\n\n# Return to caller\nj ra",
+                "key_instructions": [
+                    "push",
+                    "pop",
+                    "jal",
+                    "j",
+                    "clr"
+                ],
+                "notes": [
+                    "Demonstrates correct handling of nested function calls using stack-based return address management.",
+                    "Highlights the necessity of 'push ra' before nested 'jal' and 'pop ra' after function return to avoid overwriting return addresses.",
+                    "Contrasts the correct 'push/pop ra' method with a flawed 'move ra to register' approach, explaining the limitations of the latter.",
+                    "Mentions the maximum function call depth of 512 due to stack size.",
+                    "Recommends using 'clr db' at script start to clear the stack for predictable behavior in IC Housings (but notes potential errors when IC10 is directly in device slots).",
+                    "Illustrates advanced function call techniques for creating modular and reusable IC10 code."
+                ],
+                "devices_used": ["db (Data Bank - for stack operations, and clr db initialization)"],
+                "registers_used": ["ra"],
+                "variables_used": []
+            }
+        }
+    }
+}

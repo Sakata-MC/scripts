@@ -1,0 +1,46 @@
+# Sakata's Power and Base Utility
+define LTTWeather HASH("LTT:Weather")
+define LTTBattRatio HASH("LTT:BattRatio")
+define LTTPowerIO HASH("LTT:PowerIO")
+define LTThash -693235651
+define Batthash -400115994 #smallbatt
+#define Batthash -1388288459 #largebatt
+define BattCount 6
+define CAPowerIn HASH("CA:PowerIn")
+define CAPowerOut HASH("CA:PowerOut")
+define CAhash 1036015121
+define OccSenshash 322782515
+define Venthash 938836756
+
+start:
+yield
+lb r1 1997212478 NextWeatherEventTime Maximum
+sbn LTThash LTTWeather Setting r1
+
+lb r1 Batthash Ratio Sum
+div r1 r1 BattCount
+mul r1 r1 100
+sbn LTThash LTTBattRatio Setting r1
+
+lbn r1 CAhash CAPowerIn PowerActual Maximum
+lbn r2 CAhash CAPowerOut PowerActual Maximum
+sub r1 r1 r2
+sbn LTThash LTTPowerIO Setting r1
+
+lb r1 -1252983604 Pressure Sum
+breqz r1 3
+sb Venthash On 1
+jr 2
+sb Venthash On 0
+
+lb r1 OccSenshash Quantity Sum
+breqz r1 5
+sb 1514476632 On 1
+sb 1592905386 On 1
+sb 1944485013 On 0
+jr 4
+sb 1514476632 On 0
+sb 1592905386 On 0
+sb 1944485013 On 1
+
+j start

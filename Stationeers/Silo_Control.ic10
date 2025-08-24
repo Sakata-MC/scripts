@@ -1,0 +1,28 @@
+define htSDBSilo 1155865682
+define hnSiloIron HASH("SDB:Iron")
+define htDial 554524804
+define hnDialSelect HASH("Dial:Select")
+define hnDialCount HASH("Dial:Count")
+#Set up stack:
+move sp 0
+push 1724793494  # Coal Hash
+push 1758427767  # Iron Hash
+push -707307845  # Copper Hash
+push 1103972403  # Silicon Hash
+push -1348105509 # Gold Hash
+push -916518678  # Silver Hash
+push -190236170  # Lead Hash
+push 1830218956  # Nickel Hash
+push -983091249  # Cobalt Hash
+push -1516581844 # Uranium Hash
+push -1641500434 # Reagent Mix Hash
+
+
+lbn r1 htDial hnDialCount Setting Max
+DispenseIron:
+lbn r0 htSDBSilo hnSiloIron ExportCount Sum
+brge r0 r1 3
+sbn htSDBSilo hnSiloIron Open 1
+j DispenseIron
+sbn htSDBSilo hnSiloIron Open 0
+sbn htDial hnDialCount Setting 0

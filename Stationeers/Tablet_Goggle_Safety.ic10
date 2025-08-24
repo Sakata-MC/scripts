@@ -1,0 +1,72 @@
+define MinOxygen 25
+define GlassesCycleTime 4
+
+alias Helmet d0
+
+alias SoundPlaying r15
+alias CycleGlasses r14
+alias CycleFlush   r11
+alias scratchpad   r13
+alias BatteryLow   r12
+
+move BatteryLow 0
+s db Volume 50
+
+loop:
+  # check for external sounds
+  l     scratchpad db SoundAlert
+  breqz scratchpad 3
+  brnez SoundPlaying 2
+  move  SoundPlaying 2
+  yield
+  yield
+  # Shut off sound once it's done playing
+  sub SoundPlaying SoundPlaying 1
+  max SoundPlaying SoundPlaying 0
+  brgt SoundPlaying 0 2 # Wait for sound to finish
+  s db SoundAlert Sound.None
+
+  # Battery Check
+  ls  scratchpad db 0 ChargeRatio
+  slt scratchpad scratchpad 0.35
+  beq scratchpad BatteryLow noSoundBattery
+  move BatteryLow scratchpad
+  beq scratchpad 0 noSoundBattery
+  s db SoundAlert Sound.PowerLow
+  move SoundPlaying 2
+  noSoundBattery:
+
+  # Advance cyclers
+  add CycleGlasses CycleGlasses 1
+  mod CycleGlasses CycleGlasses GlassesCycleTime
+  sub CycleFlush CycleFlush 1
+  max CycleFlush CycleFlush 0
+
+  # do checks for cycling Sensor Lenses
+  bdns d104 skipGlasses
+  ls  r0 db 1 OccupantHash
+  seq scratchpad r0 HASH("CartridgeOreScanner")
+  seq r0         r0 HASH("CartridgeOreScannerColor")
+  add r0 r0 scratchpad
+  l   r1 db On
+  mul r0 r0 r1
+  beqz r0 skipGlasses
+  slt r0 CycleGlasses 1 #On for one second at a time
+  s d104 On r0
+  skipGlasses:
+
+  # Helmet safety checks
+  bgtz CycleFlush skipFlush
+  l scratchpad Helmet Pressure
+  l r0 Helmet RatioOxygen
+  mul scratchpad scratchpad r0
+  bgt scratchpad MinOxygen skipFlush
+  l r0 Helmet Open
+  beqz r0 skipLock
+  s Helmet Open 0
+  s Helmet Lock 1
+  skipLock:
+  move CycleFlush 5
+  s Helmet Flush 1
+  skipFlush:
+j loop

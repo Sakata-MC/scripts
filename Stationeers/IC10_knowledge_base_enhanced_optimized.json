@@ -1,0 +1,1275 @@
+{
+  "instruction_set": {
+    "arithmetic_instructions": [
+      {
+        "opcode": "move",
+        "name": "Move",
+        "syntax": "move r? a(r?|num)",
+        "description": "Moves the value of the source (register or number) to the destination register.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "move r0 10  ; Sets register r0 to the value 10\nmove r1 r0  ; Copies the value of r0 to r1",
+        "related_instructions": ["load", "save"],
+        "cheatsheet_suffix": "move dest src"
+      },
+      {
+        "opcode": "add",
+        "name": "Add",
+        "syntax": "add r? a(r?|num)",
+        "description": "Adds the value of the source (register or number) to the destination register.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "add r0 5   ; Adds 5 to the value in r0\nadd r0 r1  ; Adds the value of r1 to r0",
+        "related_instructions": ["sub", "mul", "div"],
+        "cheatsheet_suffix": "add dest src"
+      },
+      {
+        "opcode": "sub",
+        "name": "Subtract",
+        "syntax": "sub r? a(r?|num)",
+        "description": "Subtracts the value of the source (register or number) from the destination register.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "sub r1 2   ; Subtracts 2 from the value in r1\nsub r1 r2  ; Subtracts the value of r2 from r1",
+        "related_instructions": ["add", "mul", "div"],
+        "cheatsheet_suffix": "sub dest src"
+      },
+      {
+        "opcode": "mul",
+        "name": "Multiply",
+        "syntax": "mul r? a(r?|num)",
+        "description": "Multiplies the destination register by the value of the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "mul r2 10  ; Multiplies the value in r2 by 10\nmul r2 r3  ; Multiplies the value in r2 by r3",
+        "related_instructions": ["add", "sub", "div"],
+        "cheatsheet_suffix": "mul dest src"
+      },
+      {
+        "opcode": "div",
+        "name": "Divide",
+        "syntax": "div r? a(r?|num)",
+        "description": "Divides the destination register by the value of the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "div r3 2   ; Divides the value in r3 by 2\ndiv r3 r4  ; Divides the value in r3 by r4",
+        "related_instructions": ["add", "sub", "mul"],
+        "cheatsheet_suffix": "div dest src"
+      },
+      {
+        "opcode": "mod",
+        "name": "Modulo",
+        "syntax": "mod r? a(r?|num)",
+        "description": "Calculates the modulo of the destination register divided by the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "mod r4 3   ; Sets r4 to the remainder of r4 divided by 3\nmod r4 r5  ; Sets r4 to the remainder of r4 divided by r5",
+        "related_instructions": [],
+        "cheatsheet_suffix": "mod dest src"
+      }
+    ],
+    "comparison_instructions": [
+      {
+        "opcode": "slt",
+        "name": "Set Less Than",
+        "syntax": "slt r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is less than the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "slt r5 10  ; Sets r5 to 1 if r5 < 10, otherwise 0\nslt r5 r6  ; Sets r5 to 1 if r5 < r6, otherwise 0",
+        "related_instructions": ["sgt", "seq", "sne", "sle", "sge", "bgt", "blt", "beq", "bne"],
+        "cheatsheet_suffix": "slt dest src"
+      },
+      {
+        "opcode": "sgt",
+        "name": "Set Greater Than",
+        "syntax": "sgt r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is greater than the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "sgt r6 5   ; Sets r6 to 1 if r6 > 5, otherwise 0\nsgt r6 r7  ; Sets r6 to 1 if r6 > r7, otherwise 0",
+        "related_instructions": ["slt", "seq", "sne", "sle", "sge", "bgt", "blt", "beq", "bne"],
+        "cheatsheet_suffix": "sgt dest src"
+      },
+      {
+        "opcode": "seq",
+        "name": "Set Equal",
+        "syntax": "seq r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is equal to the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "seq r7 0   ; Sets r7 to 1 if r7 == 0, otherwise 0\nseq r7 r8  ; Sets r7 to 1 if r7 == r8, otherwise 0",
+        "related_instructions": ["sne", "slt", "sgt", "sle", "sge", "beq", "bne", "bgt", "blt"],
+        "cheatsheet_suffix": "seq dest src"
+      },
+      {
+        "opcode": "sne",
+        "name": "Set Not Equal",
+        "syntax": "sne r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is not equal to the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "sne r8 1   ; Sets r8 to 1 if r8 != 1, otherwise 0\nsne r8 r9  ; Sets r8 to 1 if r8 != r9, otherwise 0",
+        "related_instructions": ["seq", "slt", "sgt", "sle", "sge", "bne", "beq", "bgt", "blt"],
+        "cheatsheet_suffix": "sne dest src"
+      },
+      {
+        "opcode": "sle",
+        "name": "Set Less or Equal",
+        "syntax": "sle r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is less than or equal to the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "sle r9 100 ; Sets r9 to 1 if r9 <= 100, otherwise 0\nsle r9 r10 ; Sets r9 to 1 if r9 <= r10, otherwise 0",
+        "related_instructions": ["sge", "slt", "sgt", "seq", "sne"],
+        "cheatsheet_suffix": "sle dest src"
+      },
+      {
+        "opcode": "sge",
+        "name": "Set Greater or Equal",
+        "syntax": "sge r? a(r?|num)",
+        "description": "Sets the destination register to 1 if the destination register is greater than or equal to the source (register or number), otherwise sets it to 0.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "sge r10 50 ; Sets r10 to 1 if r10 >= 50, otherwise 0\nsge r10 r0 ; Sets r10 to 1 if r10 >= r0, otherwise 0",
+        "related_instructions": ["sle", "slt", "sgt", "seq", "sne"],
+        "cheatsheet_suffix": "sge dest src"
+      },
+      {
+        "opcode": "sap",
+        "name": "Set Approximate",
+        "syntax": "sap r? r?",
+        "description": "Sets the destination register to 1 if the absolute difference between the destination register and the source register is within a small tolerance, otherwise sets it to 0. Tolerance is calculated as: `max(1, max(abs(destination), abs(source)) * 0.00001)`.",
+        "arguments": [
+          {"type": "register", "description": "Destination register (value to compare)"},
+          {"type": "register", "description": "Source register (value to compare against)"}
+        ],
+        "example": "sap r0 r1 ; Sets r0 to 1 if r0 is approximately equal to r1, otherwise 0",
+        "related_instructions": ["sapz", "sna", "snaz", "seq", "sne"],
+        "cheatsheet_suffix": "sap dest src",
+        "tolerance_formula": "max(1, max(abs(destination), abs(source)) * 0.00001)"
+        // NOTE: tolerance_formula verified and appears correct.
+      },
+      {
+        "opcode": "sapz",
+        "name": "Set Approximate to Zero",
+        "syntax": "sapz r?",
+        "description": "Sets the destination register to 1 if the absolute value of the destination register is within a small tolerance of zero, otherwise sets it to 0. Tolerance is calculated as: `max(1, abs(destination) * 0.00001)`.",
+        "arguments": [
+          {"type": "register", "description": "Destination register (value to check against zero)"}
+        ],
+        "example": "sapz r2 ; Sets r2 to 1 if r2 is approximately zero, otherwise 0",
+        "related_instructions": ["sap", "sna", "snaz", "seq", "sne"],
+        "cheatsheet_suffix": "sapz dest",
+        "tolerance_formula": "max(1, abs(destination) * 0.00001)"
+        // NOTE: tolerance_formula verified and appears correct.
+      },
+      {
+        "opcode": "sna",
+        "name": "Set Not Approximate",
+        "syntax": "sna r? r?",
+        "description": "Sets the destination register to 1 if the absolute difference between the destination register and the source register is NOT within a small tolerance, otherwise sets it to 0. Tolerance formula is believed to be the *same* as `sap`:  `max(1, max(abs(destination), abs(source)) * 0.00001)`. **POTENTIAL DOCUMENTATION ERROR:** Tolerance formula needs explicit verification.", // NOTE: Potential Documentation Error Flag
+        "arguments": [
+          {"type": "register", "description": "Destination register (value to compare)"},
+          {"type": "register", "description": "Source register (value to compare against)"}
+        ],
+        "example": "sna r3 r4 ; Sets r3 to 1 if r3 is NOT approximately equal to r4, otherwise 0",
+        "related_instructions": ["snaz", "sap", "sapz", "sne", "seq"],
+        "cheatsheet_suffix": "sna dest src",
+        "tolerance_formula": "max(1, max(abs(destination), abs(source)) * 0.00001)" // NOTE: Tolerance formula - needs verification against in-game behavior. Potentially inconsistent with documentation.
+      },
+      {
+        "opcode": "snaz",
+        "name": "Set Not Approximate to Zero",
+        "syntax": "snaz r?",
+        "description": "Sets the destination register to 1 if the absolute value of the destination register is NOT within a small tolerance of zero, otherwise sets it to 0. **POTENTIAL DOCUMENTATION ERROR:** Example and implied logic suggest it should use `sna` tolerance, but documentation *might* incorrectly imply `sapz` tolerance or have another error.", // NOTE: Potential Documentation Error Flag
+        "arguments": [
+          {"type": "register", "description": "Destination register (value to check against zero)"}
+        ],
+        "example": "snaz r5 ; Sets r5 to 1 if r5 is NOT approximately zero, otherwise 0", // NOTE: Example usage implies SNA-like tolerance, not SAPZ. Needs verification.
+        "related_instructions": ["sna", "sap", "sapz", "sne", "seq"],
+        "cheatsheet_suffix": "snaz dest",
+        "tolerance_formula": "max(1, abs(destination) * 0.00001)" // NOTE: Tolerance formula - potentially incorrect in documentation, might use SNA tolerance instead. Needs verification.  Previous note also mentioned potential error, re-verify.
+      }
+    ],
+    "logic_instructions": [
+      {
+        "opcode": "and",
+        "name": "Logical AND",
+        "syntax": "and r? a(r?|num)",
+        "description": "Performs a bitwise AND operation between the destination register and the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "and r6 0x0F ; Masks r6 to keep only the lower 4 bits\nand r6 r7  ; Bitwise AND between r6 and r7",
+        "related_instructions": ["or", "xor", "not"],
+        "cheatsheet_suffix": "and dest src"
+      },
+      {
+        "opcode": "or",
+        "name": "Logical OR",
+        "syntax": "or r? a(r?|num)",
+        "description": "Performs a bitwise OR operation between the destination register and the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "or r7 0x10  ; Sets the 5th bit of r7 to 1\nor r7 r8   ; Bitwise OR between r7 and r8",
+        "related_instructions": ["and", "xor", "not"],
+        "cheatsheet_suffix": "or dest src"
+      },
+      {
+        "opcode": "xor",
+        "name": "Logical XOR",
+        "syntax": "xor r? a(r?|num)",
+        "description": "Performs a bitwise XOR (exclusive OR) operation between the destination register and the source (register or number).",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Source register or number"}
+        ],
+        "example": "xor r8 0xFF ; Flips all bits of r8 if they are 1\nxor r8 r9  ; Bitwise XOR between r8 and r9",
+        "related_instructions": ["and", "or", "not"],
+        "cheatsheet_suffix": "xor dest src"
+      },
+      {
+        "opcode": "not",
+        "name": "Logical NOT",
+        "syntax": "not r?",
+        "description": "Performs a bitwise NOT operation (inverts all bits) on the destination register.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"}
+        ],
+        "example": "not r9    ; Inverts all bits in r9",
+        "related_instructions": ["and", "or", "xor"],
+        "cheatsheet_suffix": "not dest"
+      }
+    ],
+    "branching_instructions": [
+      {
+        "opcode": "j",
+        "name": "Jump",
+        "syntax": "j l",
+        "description": "Unconditional jump to the label specified.",
+        "arguments": [
+          {"type": "label", "description": "Label to jump to"}
+        ],
+        "example": "j start  ; Jumps execution to the label 'start'",
+        "related_instructions": ["bgt", "blt", "beq", "bne", "bap", "ban"],
+        "cheatsheet_suffix": "j label"
+      },
+      {
+        "opcode": "bgt",
+        "name": "Branch if Greater Than",
+        "syntax": "bgt r? l",
+        "description": "Branches to the label if the register value is greater than zero.",
+        "arguments": [
+          {"type": "register", "description": "Register to check"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "bgt r0 label_gt_zero ; Jumps to 'label_gt_zero' if r0 > 0\n; Example usage: Conditional loop\nmove r1 10\nloop_start:\n  sgt r2 r1 5  ; Is r1 greater than 5?\n  bgt r2 continue_loop ; If yes, continue loop\n  j end_loop      ; If not, end loop\ncontinue_loop:\n  sub r1 1      ; Decrement r1\n  j loop_start      ; Jump back to loop start\nend_loop:",
+        "related_instructions": ["blt", "beq", "bne", "j", "slt", "sgt", "sle", "sge"],
+        "cheatsheet_suffix": "bgt reg label"
+      },
+      {
+        "opcode": "blt",
+        "name": "Branch if Less Than",
+        "syntax": "blt r? l",
+        "description": "Branches to the label if the register value is less than zero.",
+        "arguments": [
+          {"type": "register", "description": "Register to check"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "blt r1 label_lt_zero ; Jumps to 'label_lt_zero' if r1 < 0\n; Example usage: Conditional exit\nmove r3 -3\ncheck_value:\n  blt r3 exit_program ; Exit if r3 is negative\n  ; ... continue program if r3 is not negative ...\nexit_program:",
+        "related_instructions": ["bgt", "beq", "bne", "j", "slt", "sgt", "sle", "sge"],
+        "cheatsheet_suffix": "blt reg label"
+      },
+      {
+        "opcode": "beq",
+        "name": "Branch if Equal",
+        "syntax": "beq r? l",
+        "description": "Branches to the label if the register value is equal to zero.",
+        "arguments": [
+          {"type": "register", "description": "Register to check"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "beq r2 label_is_zero ; Jumps to 'label_is_zero' if r2 == 0",
+        "related_instructions": ["bne", "bgt", "blt", "j", "seq", "sne"],
+        "cheatsheet_suffix": "beq reg label"
+      },
+      {
+        "opcode": "bne",
+        "name": "Branch if Not Equal",
+        "syntax": "bne r? l",
+        "description": "Branches to the label if the register value is not equal to zero.",
+        "arguments": [
+          {"type": "register", "description": "Register to check"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "bne r3 label_not_zero ; Jumps to 'label_not_zero' if r3 != 0",
+        "related_instructions": ["beq", "bgt", "blt", "j", "seq", "sne"],
+        "cheatsheet_suffix": "bne reg label"
+      },
+      {
+        "opcode": "bap",
+        "name": "Branch if Approximate",
+        "syntax": "bap r? r? l",
+        "description": "Branches to the label if the absolute difference between the first register and the second register is within a small tolerance (same tolerance as `sap`).",
+        "arguments": [
+          {"type": "register", "description": "First register to compare"},
+          {"type": "register", "description": "Second register to compare"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "bap r4 r5 approx_equal ; Jumps to 'approx_equal' if r4 is approximately equal to r5",
+        "related_instructions": ["ban", "j", "sap", "sapz"],
+        "cheatsheet_suffix": "bap reg1 reg2 label"
+      },
+      {
+        "opcode": "ban",
+        "name": "Branch if Not Approximate",
+        "syntax": "ban r? r? l",
+        "description": "Branches to the label if the absolute difference between the first register and the second register is NOT within a small tolerance (same tolerance as `sna`).",
+        "arguments": [
+          {"type": "register", "description": "First register to compare"},
+          {"type": "register", "description": "Second register to compare"},
+          {"type": "label", "description": "Label to jump to if condition is true"}
+        ],
+        "example": "ban r5 r6 not_approx_equal ; Jumps to 'not_approx_equal' if r5 is NOT approximately equal to r6",
+        "related_instructions": ["bap", "j", "sna", "snaz"],
+        "cheatsheet_suffix": "ban reg1 reg2 label"
+      },
+      {
+        "opcode": "bal",
+        "name": "Branch Always Label",
+        "syntax": "bal l",
+        "description": "Branches to the subroutine label unconditionally, pushing the current line number onto the return stack.",
+        "arguments": [
+          {"type": "label", "description": "Subroutine label to jump to"}
+        ],
+        "example": "bal my_subroutine ; Jumps to 'my_subroutine', saves return address",
+        "related_instructions": ["br", "brr", "bals"],
+        "cheatsheet_suffix": "bal label"
+      },
+      {
+        "opcode": "br",
+        "name": "Branch Return",
+        "syntax": "br",
+        "description": "Returns from a subroutine by popping the last line number from the return stack and jumping to that line. **POTENTIAL DOCUMENTATION ERROR:** Documentation unclear if stack is used correctly, behavior needs verification.", // NOTE: Potential Documentation Error Flag
+        "arguments": [],
+        "example": "; Assumed usage within a subroutine:\nmy_subroutine:\n  ; ... subroutine code ...\n  br          ; Return to calling code",
+        "related_instructions": ["bal", "brr", "bals"],
+        "cheatsheet_suffix": "br"
+      },
+      {
+        "opcode": "brr",
+        "name": "Branch Return Register",
+        "syntax": "brr r?",
+        "description": "Returns from a subroutine by popping the last line number from the return stack and adding the register value to it before jumping. **POTENTIAL DOCUMENTATION ERROR:** Documentation unclear, register addition behavior and stack usage needs verification.", // NOTE: Potential Documentation Error Flag
+        "arguments": [
+          {"type": "register", "description": "Register value to add to the return address"}
+        ],
+        "example": "; Assumed usage within a subroutine:\nmy_subroutine:\n  ; ... subroutine code ...\n  brr r0      ; Return, adjusting address by r0",
+        "related_instructions": ["bal", "br", "bals"],
+        "cheatsheet_suffix": "brr reg"
+      },
+      {
+        "opcode": "bals",
+        "name": "Branch Always Label Stack",
+        "syntax": "bals l",
+        "description": "Branches to the subroutine label unconditionally, pushing the *current stack pointer* onto the return stack. **POTENTIAL DOCUMENTATION ERROR:** Purpose and difference from `bal` unclear, documentation needs clarification.", // NOTE: Potential Documentation Error Flag
+        "arguments": [
+          {"type": "label", "description": "Subroutine label to jump to"}
+        ],
+        "example": "bals another_sub ; Jumps to 'another_sub', saves stack pointer?",
+        "related_instructions": ["bal", "br", "brr"],
+        "cheatsheet_suffix": "bals label"
+      },
+      {
+        "opcode": "bapal",
+        "name": "Branch if Approximate Label",
+        "syntax": "bapal r? r? l l",
+        "description": "Branches to the first label if the absolute difference between the first register and the second register is within a small tolerance (same tolerance as `sap`), otherwise branches to the second label. **POTENTIAL DOCUMENTATION ERROR:**  Behavior and intended usage needs clarification. Is it truly a branch-always-approximate-label, or branch-approximate-label-always?  Name is confusing.", // NOTE: Potential Documentation Error Flag, Name and Description need review for clarity.
+        "arguments": [
+          {"type": "register", "description": "First register to compare"},
+          {"type": "register", "description": "Second register to compare"},
+          {"type": "label", "description": "Label to jump to if condition is true (approximate)"},
+          {"type": "label", "description": "Label to jump to if condition is false (not approximate) - or always jump to?"} // NOTE: Label 4 description needs clarification based on instruction's true behavior.
+        ],
+        "example": "bapal r0 r1 approx_label not_approx_label ; Jump to approx_label if r0 ~= r1, otherwise not_approx_label (or always jump to not_approx_label?)", // NOTE: Example needs clarification based on instruction's true behavior.
+        "related_instructions": ["bana", "j", "sap", "sapz", "banal", "bnaal"],
+        "cheatsheet_suffix": "bapal reg1 reg2 label_approx label_other" // NOTE: Cheatsheet suffix labels need review based on clarified behavior.
+      },
+      {
+        "opcode": "banal",
+        "name": "Branch if Not Approximate Label",
+        "syntax": "banal r? r? l l",
+        "description": "Branches to the first label if the absolute difference between the first register and the second register is NOT within a small tolerance (same tolerance as `sna`), otherwise branches to the second label.",
+        "arguments": [
+          {"type": "register", "description": "First register to compare"},
+          {"type": "register", "description": "Second register to compare"},
+          {"type": "label", "description": "Label to jump to if condition is true (not approximate)"},
+          {"type": "label", "description": "Label to jump to if condition is false (approximate)"}
+        ],
+        "example": "banal r1 r2 not_approx_label approx_label ; Jump to not_approx_label if r1 !=~ r2, otherwise approx_label",
+        "related_instructions": ["bapal", "j", "sna", "snaz", "bnaal"],
+        "cheatsheet_suffix": "banal reg1 reg2 label_not_approx label_approx"
+      },
+      {
+        "opcode": "bnaal",
+        "name": "Branch if Not Approximate Always Label",
+        "syntax": "bnaal r? r? l l",
+        "description": "Branches to the first label if the register value is not approximately equal, **POTENTIAL DOCUMENTATION ERROR:**  Description incomplete.  Similar to `bapal` confusion, needs clarification on 'always label' and full branching logic.", // NOTE: Potential Documentation Error Flag, Description incomplete and potentially misleading based on name similarity to `bapal`.
+        "arguments": [
+          {"type": "register", "description": "First register to compare"},
+          {"type": "register", "description": "Second register to compare"},
+          {"type": "label", "description": "Label to jump to if condition is true (not approximate) - or always jump to?"}, // NOTE: Label 3 description needs clarification based on instruction's true behavior.
+          {"type": "label", "description": "Label to jump to if condition is false (approximate) - or the 'always' label?"} // NOTE: Label 4 description needs clarification based on instruction's true behavior, considering 'always label' aspect.
+        ],
+        "example": "bnaal r2 r3 not_approx_label always_label ; Jump to not_approx_label if r2 !=~ r3, otherwise always_label (or jump to always_label in all cases?)", // NOTE: Example needs clarification based on instruction's true behavior, especially regarding 'always label'.
+        "related_instructions": ["bapal", "banal", "j", "sna", "snaz", "bapal"],
+        "cheatsheet_suffix": "bnaal reg1 reg2 label_not_approx label_always" // NOTE: Cheatsheet suffix labels need review based on clarified behavior.
+      }
+    ],
+    "stack_instructions": [
+      {
+        "opcode": "push",
+        "name": "Push to Stack",
+        "syntax": "push r?",
+        "description": "Pushes the value of the register onto the stack.",
+        "arguments": [
+          {"type": "register", "description": "Register to push onto the stack"}
+        ],
+        "example": "push r15  ; Pushes the value of r15 onto the stack",
+        "related_instructions": ["pop", "peek"],
+        "cheatsheet_suffix": "push reg"
+      },
+      {
+        "opcode": "pop",
+        "name": "Pop from Stack",
+        "syntax": "pop r?",
+        "description": "Pops the top value from the stack into the register.",
+        "arguments": [
+          {"type": "register", "description": "Register to pop the value into"}
+        ],
+        "example": "pop r14   ; Pops the top stack value into r14",
+        "related_instructions": ["push", "peek"],
+        "cheatsheet_suffix": "pop reg"
+      },
+      {
+        "opcode": "peek",
+        "name": "Peek at Stack",
+        "syntax": "peek r?",
+        "description": "Peeks at the top value on the stack and copies it into the register without removing it from the stack.",
+        "arguments": [
+          {"type": "register", "description": "Register to copy the top stack value into"}
+        ],
+        "example": "peek r13  ; Copies the top stack value into r13 (stack unchanged)",
+        "related_instructions": ["push", "pop"],
+        "cheatsheet_suffix": "peek reg"
+      }
+    ],
+    "memory_access_instructions": [
+      {
+        "opcode": "load",
+        "name": "Load Device/Slot Variable",
+        "syntax": "load r? s|d a(r?|num)",
+        "description": "Loads a value from a device variable (d prefix) or slot variable (s prefix) into the register.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "slot|device_variable", "description": "Variable type ('d' for device, 's' for slot)"},
+          {"type": "register|number", "description": "Variable index (register or number)"}
+        ],
+        "example": "load r11 d0 Setting ; Loads device Setting into r11\nload r12 s1 Power   ; Loads slot 1 Power into r12",
+        "related_instructions": ["save", "lsv", "csv", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "lsc", "lrc"],
+        "cheatsheet_suffix": "load reg type index"
+      },
+      {
+        "opcode": "save",
+        "name": "Save Device/Slot Variable",
+        "syntax": "save s|d a(r?|num) a(r?|num)",
+        "description": "Saves a value to a device variable (d prefix) or slot variable (s prefix) from a register or number.",
+        "arguments": [
+          {"type": "slot|device_variable", "description": "Variable type ('d' for device, 's' for slot)"},
+          {"type": "register|number", "description": "Variable index (register or number)"},
+          {"type": "register|number", "description": "Source register or number to save"}
+        ],
+        "example": "save d0 Setting r11 ; Saves r11 to device Setting\nsave s1 Power 20  ; Saves 20 to slot 1 Power",
+        "related_instructions": ["load", "ssv", "csv"],
+        "cheatsheet_suffix": "save type index src"
+      },
+      {
+        "opcode": "lsv",
+        "name": "Load Setting Variable (Device)",
+        "syntax": "lsv r? a(r?|num)",
+        "description": "Loads a device Setting variable value into the register. Equivalent to `load r? d0 Setting` but potentially more efficient.",
+        "arguments": [
+          {"type": "register", "description": "Destination register"},
+          {"type": "register|number", "description": "Device index (register or number)"}
+        ],
+        "example": "lsv r10 0   ; Loads Setting of device 0 into r10\nlsv r10 r1  ; Loads Setting of device at index r1 into r10",
+        "related_instructions": ["load", "ssv", "csv"],
+        "cheatsheet_suffix": "lsv reg index"
+      },
+      {
+        "opcode": "ssv",
+        "name": "Save Setting Variable (Device)",
+        "syntax": "ssv a(r?|num) a(r?|num)",
+        "description": "Saves a value to a device Setting variable. Equivalent to `save d0 Setting a(r?|num)` but potentially more efficient.",
+        "arguments": [
+          {"type": "register|number", "description": "Device index (register or number)"},
+          {"type": "register|number", "description": "Source register or number to save"}
+        ],
+        "example": "ssv 0 r10   ; Saves r10 to Setting of device 0\nssv r2 55   ; Saves 55 to Setting of device at index r2",
+        "related_instructions": ["save", "lsv", "csv"],
+        "cheatsheet_suffix": "ssv index src"
+      },
+      {
+        "opcode": "csv",
+        "name": "Copy Setting Variable",
+        "syntax": "csv a(r?|num) a(r?|num)",
+        "description": "Copies the Setting variable value from one device to another.",
+        "arguments": [
+          {"type": "register|number", "description": "Destination device index"},
+          {"type": "register|number", "description": "Source device index"}
+        ],
+        "example": "csv 1 0     ; Copies Setting from device 0 to device 1\ncsv r3 r4   ; Copies Setting from device at r4 to device at r3",
+        "related_instructions": ["lsv", "ssv", "load", "save"],
+        "cheatsheet_suffix": "csv dest_index src_index"
+      },
+      {
+        "opcode": "ls",
+        "name": "Load Slot Variable (Single Slot)",
+        "syntax": "ls r? a(r?|num) v",
+        "description": "Loads a single Slot Variable `v` for a specific slot index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "slot_variable_enum", "description": "Slot Variable Enum (e.g., `Power`, `Pressure`)"}
+        ],
+        "example": "ls r0 0 Power  ; Load Power from slot 0 into r0\nls r1 r5 Ratio    ; Load Ratio from slot at index in r5 into r1",
+        "related_instructions": ["lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "ls reg slot_index variable"
+      },
+      {
+        "opcode": "lr",
+        "name": "Load Slot Variable (Register Slot)",
+        "syntax": "lr r? r? v",
+        "description": "Loads a single Slot Variable `v` for a slot index specified by a register into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "slot_variable_enum", "description": "Slot Variable Enum (e.g., `Power`, `Pressure`)"}
+        ],
+        "example": "lr r2 r6 Pressure ; Load Pressure from slot indexed by r6 into r2",
+        "related_instructions": ["ls", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lr reg slot_reg variable"
+      },
+      {
+        "opcode": "lbs",
+        "name": "Load Batch Slot Variable (Single Slot)",
+        "syntax": "lbs r? a(r?|num) v a(r?|num)",
+        "description": "Loads a Batch Slot Variable `v` for a specific slot index and batch index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "batch_slot_variable_enum", "description": "Batch Slot Variable Enum (e.g., `Reagent`, `Waste`)"},
+          {"type": "register|number", "description": "Batch Index (0-based)"}
+        ],
+        "example": "lbs r3 0 Reagent 2 ; Load Reagent from slot 0, batch 2 into r3\nlbs r4 r7 Waste 0  ; Load Waste from slot at index in r7, batch 0 into r4",
+        "related_instructions": ["lbr", "ls", "lr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lbs reg slot_index variable batch_index"
+      },
+      {
+        "opcode": "lbr",
+        "name": "Load Batch Slot Variable (Register Slot)",
+        "syntax": "lbr r? r? v a(r?|num)",
+        "description": "Loads a Batch Slot Variable `v` for a slot index specified by a register and a batch index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "batch_slot_variable_enum", "description": "Batch Slot Variable Enum (e.g., `Reagent`, `Waste`)"},
+          {"type": "register|number", "description": "Batch Index (0-based)"}
+        ],
+        "example": "lbr r5 r8 Reagent 1 ; Load Reagent from slot indexed by r8, batch 1 into r5",
+        "related_instructions": ["lbs", "ls", "lr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lbr reg slot_reg variable batch_index"
+      },
+      {
+        "opcode": "lrs",
+        "name": "Load Recipe Slot Variable (Single Slot)",
+        "syntax": "lrs r? a(r?|num) v a(r?|num)",
+        "description": "Loads a Recipe Slot Variable `v` for a specific slot index and recipe index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "recipe_slot_variable_enum", "description": "Recipe Slot Variable Enum (e.g., `RequiredReagents`, `ProducedGas`)"},
+          {"type": "register|number", "description": "Recipe Index (0-based)"}
+        ],
+        "example": "lrs r6 0 RequiredReagents 0 ; Load RequiredReagents from slot 0, recipe 0 into r6",
+        "related_instructions": ["lrr", "ls", "lr", "lbs", "lbr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lrs reg slot_index variable recipe_index"
+      },
+      {
+        "opcode": "lrr",
+        "name": "Load Recipe Slot Variable (Register Slot)",
+        "syntax": "lrr r? r? v a(r?|num)",
+        "description": "Loads a Recipe Slot Variable `v` for a slot index specified by a register and a recipe index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "recipe_slot_variable_enum", "description": "Recipe Slot Variable Enum (e.g., `RequiredReagents`, `ProducedGas`)"},
+          {"type": "register|number", "description": "Recipe Index (0-based)"}
+        ],
+        "example": "lrr r7 r9 ProducedGas 2 ; Load ProducedGas from slot indexed by r9, recipe 2 into r7",
+        "related_instructions": ["lrs", "ls", "lr", "lbs", "lbr", "lls", "llr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lrr reg slot_reg variable recipe_index"
+      },
+      {
+        "opcode": "lls",
+        "name": "Load Logic Slot Variable (Single Slot)",
+        "syntax": "lls r? a(r?|num) v a(r?|num)",
+        "description": "Loads a Logic Slot Variable `v` for a specific slot index and logic index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "logic_slot_variable_enum", "description": "Logic Slot Variable Enum (e.g., `Setting`, `Output`)"},
+          {"type": "register|number", "description": "Logic Index (0-based)"}
+        ],
+        "example": "lls r8 0 Setting 1 ; Load Setting from logic slot 0, logic 1 into r8",
+        "related_instructions": ["llr", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lls reg slot_index variable logic_index"
+      },
+      {
+        "opcode": "llr",
+        "name": "Load Logic Slot Variable (Register Slot)",
+        "syntax": "llr r? r? v a(r?|num)",
+        "description": "Loads a Logic Slot Variable `v` for a slot index specified by a register and a logic index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "logic_slot_variable_enum", "description": "Logic Slot Variable Enum (e.g., `Setting`, `Output`)"},
+          {"type": "register|number", "description": "Logic Index (0-based)"}
+        ],
+        "example": "llr r9 r10 Output 0 ; Load Output from slot indexed by r10, logic 0 into r9",
+        "related_instructions": ["lls", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lss", "lsr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "llr reg slot_reg variable logic_index"
+      },
+      {
+        "opcode": "lss",
+        "name": "Load Stack Slot Variable (Single Slot)",
+        "syntax": "lss r? a(r?|num) v a(r?|num)",
+        "description": "Loads a Stack Slot Variable `v` for a specific slot index and stack index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "stack_slot_variable_enum", "description": "Stack Slot Variable Enum (e.g., `Quantity`, `Hash`)"},
+          {"type": "register|number", "description": "Stack Index (0-based)"}
+        ],
+        "example": "lss r10 0 Quantity 3 ; Load Quantity from slot 0, stack 3 into r10",
+        "related_instructions": ["lsr", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lss reg slot_index variable stack_index"
+      },
+      {
+        "opcode": "lsr",
+        "name": "Load Stack Slot Variable (Register Slot)",
+        "syntax": "lsr r? r? v a(r?|num)",
+        "description": "Loads a Stack Slot Variable `v` for a slot index specified by a register and a stack index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "stack_slot_variable_enum", "description": "Stack Slot Variable Enum (e.g., `Quantity`, `Hash`)"},
+          {"type": "register|number", "description": "Stack Index (0-based)"}
+        ],
+        "example": "lsr r11 r0 Hash 1 ; Load Hash from slot indexed by r0, stack 1 into r11",
+        "related_instructions": ["lss", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lsc", "lrc", "load", "save"],
+        "cheatsheet_suffix": "lsr reg slot_reg variable stack_index"
+      },
+      {
+        "opcode": "lsc",
+        "name": "Load Charge Slot Variable (Single Slot)",
+        "syntax": "lsc r? a(r?|num) v a(r?|num)",
+        "description": "Loads a Charge Slot Variable `v` for a specific slot index and charge index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register|number", "description": "Slot Index (0-based)"},
+          {"type": "charge_slot_variable_enum", "description": "Charge Slot Variable Enum (e.g., `ChargeRateTarget`, `RechargeRatio`)"},
+          {"type": "register|number", "description": "Charge Index (0-based)"}
+        ],
+        "example": "lsc r12 0 ChargeRateTarget 0 ; Load ChargeRateTarget from slot 0, charge 0 into r12",
+        "related_instructions": ["lrc", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "load", "save"],
+        "cheatsheet_suffix": "lsc reg slot_index variable charge_index"
+      },
+      {
+        "opcode": "lrc",
+        "name": "Load Charge Slot Variable (Register Slot)",
+        "syntax": "lrc r? r? v a(r?|num)",
+        "description": "Loads a Charge Slot Variable `v` for a slot index specified by a register and a charge index into a register.",
+        "arguments": [
+          {"type": "register", "description": "Destination Register"},
+          {"type": "register", "description": "Slot Index Register (contains slot index 0-based)"},
+          {"type": "charge_slot_variable_enum", "description": "Charge Slot Variable Enum (e.g., `ChargeRateTarget`, `RechargeRatio`)"},
+          {"type": "register|number", "description": "Charge Index (0-based)"}
+        ],
+        "example": "lrc r13 r1 ChargeRateCurrent 1 ; Load ChargeRateCurrent from slot indexed by r1, charge 1 into r13",
+        "related_instructions": ["lsc", "ls", "lr", "lbs", "lbr", "lrs", "lrr", "lls", "llr", "lss", "lsr", "load", "save"],
+        "cheatsheet_suffix": "lrc reg slot_reg variable charge_index"
+      }
+    ],
+    "utility_instructions": [
+      {
+        "opcode": "yield",
+        "name": "Yield",
+        "syntax": "yield",
+        "description": "Pauses the current program execution for a short duration, allowing other programs or processes to run.",
+        "arguments": [],
+        "example": "yield ; Pause execution briefly",
+        "related_instructions": [],
+        "cheatsheet_suffix": "yield"
+      },
+      {
+        "opcode": "sleep",
+        "name": "Sleep",
+        "syntax": "sleep a(r?|num)",
+        "description": "Pauses the current program execution for a specified duration in milliseconds.",
+        "arguments": [
+          {"type": "register|number", "description": "Sleep duration in milliseconds"}
+        ],
+        "example": "sleep 1000 ; Pause execution for 1 second\nsleep r14  ; Pause execution for r14 milliseconds",
+        "related_instructions": ["yield"],
+        "cheatsheet_suffix": "sleep duration_ms"
+      }
+    ]
+  },
+  "device_variables": [
+    {
+      "name": "Setting",
+      "data_type": "number",
+      "value_range": "Context-dependent",
+      "description": "Context-dependent setting for the device.  *Further investigation needed to provide specific examples for different device types.*" // NOTE: Context-dependent, needs more specific examples for different device types if possible.
+    },
+    {
+      "name": "Ratio",
+      "data_type": "number",
+      "value_range": "Context-dependent",
+      "description": "Context-dependent ratio or proportion for the device. *Further investigation needed to provide specific examples for different device types.*" // NOTE: Context-dependent, needs more specific examples for different device types if possible.
+    },
+    {
+      "name": "Output",
+      "data_type": "number",
+      "value_range": "Context-dependent",
+      "description": "Context-dependent output value from the device. *Further investigation needed to provide specific examples for different device types.*" // NOTE: Context-dependent, needs more specific examples for different device types if possible.
+    },
+    {
+      "name": "Maximum",
+      "data_type": "number",
+      "value_range": "Context-dependent",
+      "description": "Context-dependent maximum value or capacity for the device. *Further investigation needed to provide specific examples for different device types.*" // NOTE: Context-dependent, needs more specific examples for different device types if possible.
+    },
+    {
+      "name": "Pressure",
+      "data_type": "number",
+      "value_range": "Context-dependent, likely kPa",
+      "description": "Context-dependent pressure reading, likely in kPa. *Further investigation needed to provide specific examples for different device types and confirm unit.*" // NOTE: Context-dependent, needs more specific examples for different device types and unit verification.
+    },
+    {
+      "name": "Temperature",
+      "data_type": "number",
+      "value_range": "Likely Kelvin",
+      "description": "Temperature reading from the device, likely in Kelvin.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Power",
+      "data_type": "number",
+      "value_range": "0 or higher",
+      "description": "Power consumption or generation of the device in Watts.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Efficiency",
+      "data_type": "number",
+      "value_range": "0 to 1",
+      "description": "Context-dependent efficiency of the device, typically a value between 0 and 1. *Further investigation needed to provide specific examples for different device types.*" // NOTE: Context-dependent, needs more specific examples for different device types if possible.
+    },
+    {
+      "name": "On",
+      "data_type": "number",
+      "value_range": "0 or 1 (Boolean)",
+      "description": "On/Off state of the device (1 = On, 0 = Off).",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Error",
+      "data_type": "number",
+      "value_range": "0 or higher (Error Codes)",
+      "description": "Error code reported by the device. 0 indicates no error.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Mode",
+      "data_type": "number",
+      "value_range": "Device-specific Enum",
+      "description": "Operating mode of the device. Enum values are device-specific.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Color",
+      "data_type": "number",
+      "value_range": "Color Code (e.g., RGB)",
+      "description": "Color setting of the device, represented as a color code (e.g., RGB integer).",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Animation",
+      "data_type": "number",
+      "value_range": "Animation Index",
+      "description": "Current animation being played by the device, indicated by an animation index.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Inventory",
+      "data_type": "number",
+      "value_range": "0 or higher",
+      "description": "Current inventory level or count for the device.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "PressureWaste",
+      "data_type": "number",
+      "value_range": "Context-dependent, likely kPa",
+      "description": "Waste pressure, likely in kPa. Context-dependent. *Further investigation needed for context and unit confirmation.*", // NOTE: Context-dependent, needs context and unit verification.
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "PressureAir",
+      "data_type": "number",
+      "value_range": "Context-dependent, likely kPa",
+      "description": "Air pressure, likely in kPa. Context-dependent. *Further investigation needed for context and unit confirmation.*", // NOTE: Context-dependent, needs context and unit verification.
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "CompletionRatio",
+      "data_type": "number",
+      "value_range": "0 to 1",
+      "description": "Ratio indicating completion progress, typically between 0 and 1. Context-dependent. *Further investigation needed for context and specific usage scenarios.*", // NOTE: Context-dependent, needs context and usage scenario examples.
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "RequiredPower",
+      "data_type": "number",
+      "value_range": "0 or higher",
+      "description": "Power required for the device to operate.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "Reagents",
+      "data_type": "complex", // NOTE: Marked as complex data type
+      "value_range": "TBD", // NOTE: Details To Be Determined
+      "description": "Complex data structure representing reagents within the device. Details TBD. *Further investigation needed to define the structure.*" // NOTE: Complex, structure TBD, requires investigation.
+    },
+    {
+      "name": "ChargeRate",
+      "data_type": "number",
+      "value_range": "0 or higher",
+      "description": "Current charge rate of the device.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "ChargeLevel",
+      "data_type": "number",
+      "value_range": "0 to 1",
+      "description": "Current charge level of the device, typically a ratio between 0 and 1.",
+      "instruction_association": ["l", "s"]
+    },
+    {
+      "name": "AirRelease", // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "VelocityRelativeZ",  // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "VelocityRelativeY",  // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "VelocityRelativeX",  // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "VelocityMagnitude", // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "TotalMoles",  // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "TemperatureSettings", // NOTE: Typo in name? Should it be TemperatureSetting or TemperatureSetpoint? Unknown Description - needs investigation and name review.
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function and correct name if typo exists.*" // NOTE: Unknown Description and Potential Typo - needs investigation and name review.
+    },
+    {
+      "name": "RequestHash", // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    },
+    {
+      "name": "ElevatorSpeed", // NOTE: Unknown Description - needs investigation
+      "data_type": "number",
+      "value_range": "Unknown",
+      "description": "Unknown Description. *Further investigation needed to determine function.*" // NOTE: Unknown Description - needs investigation
+    }
+  ],
+  "slot_variables": [
+    {
+      "variable_enum_name": "slot_variable_enum",
+      "variables": [
+        {
+          "name": "Power",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Power consumption or generation of the slot in Watts.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Pressure",
+          "data_type": "number",
+          "value_range": "Likely kPa",
+          "description": "Pressure within the slot, likely in kPa.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Temperature",
+          "data_type": "number",
+          "value_range": "Likely Kelvin",
+          "description": "Temperature within the slot, likely in Kelvin.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Setting",
+          "data_type": "number",
+          "value_range": "Context-dependent",
+          "description": "Context-dependent setting for the slot. *Further investigation needed to determine context.*", // NOTE: Context-dependent, needs investigation to determine context.
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Ratio",
+          "data_type": "number",
+          "value_range": "Context-dependent",
+          "description": "Context-dependent ratio for the slot. *Further investigation needed to determine context.*", // NOTE: Context-dependent, needs investigation to determine context.
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Output",
+          "data_type": "number",
+          "value_range": "Context-dependent",
+          "description": "Context-dependent output of the slot. *Further investigation needed to determine context.*", // NOTE: Context-dependent, needs investigation to determine context.
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Maximum",
+          "data_type": "number",
+          "value_range": "Context-dependent",
+          "description": "Context-dependent maximum value for the slot. *Further investigation needed to determine context.*", // NOTE: Context-dependent, needs investigation to determine context.
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Inventory",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Inventory count within the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Integrity",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Integrity or health of items within the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Growth",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Growth stage of items within the slot (0 to 1). *Inferred association with Slot 0 (Import)*.", // NOTE: Inferred Slot Association, needs verification.
+          "slot_association": "Inferred 0: Import" // NOTE: Inferred Slot Association, needs verification.
+        },
+        {
+          "name": "Mature",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Maturity stage of items within the slot (0 to 1). *Inferred association with Slot 2 (Inside Machine)*.", // NOTE: Inferred Slot Association, needs verification.
+          "slot_association": "Inferred 2: Inside Machine" // NOTE: Inferred Slot Association, needs verification.
+        },
+        {
+          "name": "PressureWaste",
+          "data_type": "number",
+          "value_range": "Likely kPa",
+          "description": "Waste pressure within the slot, likely in kPa.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "PressureAir",
+          "data_type": "number",
+          "value_range": "Likely kPa",
+          "description": "Air pressure within the slot, likely in kPa.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "ExportRatio",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Ratio of items being exported from the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "ImportRatio",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Ratio of items being imported into the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "IntegrityWaste",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Integrity or health of waste items within the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "IntegrityOutput",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Integrity or health of output items within the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "IntegrityReagent",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Integrity or health of reagent items within the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    },
+    {
+      "variable_enum_name": "batch_slot_variable_enum",
+      "variables": [
+        {
+          "name": "Reagent",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Quantity of a specific reagent batch within the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Waste",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Quantity of waste products in a specific batch within the slot.",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    },
+    {
+      "variable_enum_name": "recipe_slot_variable_enum",
+      "variables": [
+        {
+          "name": "RequiredReagents",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Quantity of reagents required for a specific recipe in the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "ProducedGas",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Quantity of gas produced by a specific recipe in the slot.",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    },
+    {
+      "variable_enum_name": "logic_slot_variable_enum",
+      "variables": [
+        {
+          "name": "Setting",
+          "data_type": "number",
+          "value_range": "Logic-specific Enum",
+          "description": "Setting for a specific logic function within the slot. Enum values are logic-specific.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Output",
+          "data_type": "number",
+          "value_range": "Logic-specific Value",
+          "description": "Output value from a specific logic function within the slot. Value type is logic-specific.",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    },
+    {
+      "variable_enum_name": "stack_slot_variable_enum",
+      "variables": [
+        {
+          "name": "Quantity",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Quantity of items in a specific stack within the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "Hash",
+          "data_type": "number",
+          "value_range": "Hash Value (Number)",
+          "description": "Hash value representing the type of item in a specific stack within the slot.",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    },
+    {
+      "variable_enum_name": "charge_slot_variable_enum",
+      "variables": [
+        {
+          "name": "ChargeRateTarget",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Target charge rate for a specific charge process in the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "ChargeRateCurrent",
+          "data_type": "number",
+          "value_range": "0 or higher",
+          "description": "Current charge rate for a specific charge process in the slot.",
+          "slot_association": "General Slot Variable"
+        },
+        {
+          "name": "RechargeRatio",
+          "data_type": "number",
+          "value_range": "0 to 1",
+          "description": "Ratio indicating the recharge progress for a specific charge process in the slot (0 to 1).",
+          "slot_association": "General Slot Variable"
+        }
+      ]
+    }
+  ],
+  "script_examples": [
+    {
+      "category": "device_automation",
+      "example_name": "Harvie Automation",
+      "description": "This script automates Harvie (planter/harvester) devices using batch commands. It designates one Harvie and Tray as 'master' units, reading sensor data from the Tray to control planting and harvesting actions across all Harvies of the same type on the network.  \n\n**Note:** The script logic has a potential flaw: it jumps to `harvestCrop` if seeds are available in the tray, which might be unintentional. It is more likely intended to plant in this case. The script is documented as written in the original example.",
+      "code": "alias dHarvie d0\nalias dTray d1\n\nalias rHarvieHash r8\nalias rTrayHash r9\nl rHarvieHash dHarvie PrefabHash\nl rTrayHash dTray PrefabHash\n\nmain:\nyield\n#read plant data from the Tray\nls r0 dTray 0 Mature\n#harvestable plants return 1, young plants return 0\n#nothing planted returns -1\nbeq r0 -1 plantCrop\nbeq r0 1 harvestCrop\nls r0 dTray 0 Seeding\n#seeds available returns 1, all seeds picked returns 0\n#plants too young or old for seeds returns -1\nbeq r0 1 harvestCrop\nj main\n\nplantCrop:\n#stop the planting if no seeds available\n#otherwise it will plant nothing repeatedly\nls r0 dHarvie 0 Occupied\nbeq r0 0 main\nsb rHarvieHash Plant 1\nj main\n\nharvestCrop:\nsb rHarvieHash Harvest 1\nj main\n\n### End Script ###",
+      "key_instructions": ["alias", "l", "ls", "beq", "sb", "j", "yield"],
+      "notes": [
+        "Uses 'sb' (Structure Batch) instruction for controlling multiple devices of the same prefab hash.",
+        "Relies on a 'master' Harvie and Tray to dictate actions for all Harvies.",
+        "Potential logic flaw: Jumps to 'harvestCrop' when seeds are available; likely intended to plant instead.",
+        "Demonstrates basic device interaction and conditional logic for automation."
+      ],
+      "devices_used": ["dHarvie (Harvie Device)", "dTray (Tray Device)"],
+      "registers_used": ["rHarvieHash (r8)", "rTrayHash (r9)", "r0"],
+      "variables_used": ["PrefabHash", "Mature", "Seeding", "Occupied", "Plant", "Harvest"]
+    },
+    {
+      "category": "device_automation",
+      "example_name": "Solar Panel 2-axis Tracking",
+      "description": "This script implements a 2-axis solar tracking system for multiple solar panels. It uses a daylight sensor (d0 - alias 'sensor') to read horizontal and vertical angles of sunlight and applies these angles to Heavy, HeavyDual, Solar, and SolarDual panel variants using batch commands.  The script also includes a 'reset' routine that sets the panels to a fixed orientation (facing sunrise, vertical angle 0) during nighttime or when daylight is inactive. \n\n**Setup Notes from Script Comments:**\n*  Panels should be placed uniformly.\n*  One panel should be manually set to 15 Vertical(Min value). 0 Horizontal.\n*  Take note direction panel faces.\n*  Place daylight sensor flat pointing in the direction\n*  the panel now faces. (Cable port facing opposite)\n",
+      "code": "#2 Axis Solar Tracking adapted from CowsAreEvil.\n#Place all panels in uniform manner.\n#Set one to 15 Vertical(Min value). 0 Horizontal.\n#Take note direction panel faces.\n#Place daylight sensor flat pointing in the direction\n#the panel now faces. (Cable port facing opposite)\n\n#Alias the sensor to d0\nalias sensor d0\n\n# define the Panel variants\ndefine Heavy -934345724\ndefine HeavyDual -1545574413\ndefine Solar -2045627372\ndefine SolarDual -539224550\n\nstart:\nyield\n#Check for daylight.\nl r0 sensor Activate\nbeqz r0 reset\n#Read the Horizontal data.\nl r0 sensor Horizontal\n#Set batch to the panels.\nsb Heavy Horizontal r0\nsb HeavyDual Horizontal r0\nsb Solar Horizontal r0\nsb SolarDual Horizontal r0\n#Read the Vertical data and subtract 90\nl r0 sensor Vertical\nsub r0 90 r0\n#Set batch to the panels.\nsb Heavy Vertical r0\nsb HeavyDual Vertical r0\nsb Solar Vertical r0\nsb SolarDual Vertical r0\nj start\n\nreset:\nyield\nsb Heavy Horizontal 270 #Edit this to face sunrise.\nsb HeavyDual Horizontal 270 #Edit this\nsb Solar Horizontal 270 #Edit this\nsb SolarDual Horizontal 270 #Edit this\nsb Heavy Vertical 0\nsb HeavyDual Vertical 0\nsb Solar Vertical 0\nsb SolarDual Vertical 0\nsleep 10\nj start",
+      "key_instructions": ["alias", "define", "yield", "l", "beqz", "sb", "sub", "j", "sleep"],
+      "notes": [
+        "Implements 2-axis solar tracking using a daylight sensor.",
+        "Uses 'sb' (Structure Batch) to control multiple solar panels of different variants simultaneously.",
+        "Includes a 'reset' function to orient panels at sunrise/night.",
+        "Demonstrates conditional logic ('beqz') for day/night detection and different control flows.",
+        "Relies on specific physical setup of panels and sensor for correct operation (as noted in description)."
+      ],
+      "devices_used": [
+        "sensor (Daylight Sensor)",
+        "Heavy (Heavy Solar Panel Variant)",
+        "HeavyDual (Heavy Dual Solar Panel Variant)",
+        "Solar (Solar Panel Variant)",
+        "SolarDual (Solar Dual Solar Panel Variant)"
+      ],
+      "registers_used": ["r0"],
+      "variables_used": ["Activate", "Horizontal", "Vertical"]
+    },
+    {
+      "category": "testing_benchmark_utility",
+      "example_name": "Code Execution Speed Test (Lines per Tick)",
+      "description": "This script is designed as an experiment to determine the number of IC10 code lines that can be executed within a single game tick (without using `yield`). It avoids `yield` to maximize execution speed and uses a minimal instruction set and no labels to minimize the script length itself (except for the jump target at line 1). The script increments a register (`r0`) and displays its value on an IC Housing Display (`db` alias assumed). The increasing value displayed on the IC Housing every 0.5 seconds reflects the number of lines executed per tick.\n\n**Experiment Results & Observations:**\n*  Observed output values increase roughly every 0.5 seconds, incrementing by approximately 128 each time (sequence: 127, 256, 385, 511, 640, 769, 895, 1024, 1153).\n*  The increment pattern (+129, +129, +126 repeating) suggests a base value of 128 lines per tick.\n*  Further experimentation indicated that empty lines in the script are also counted towards this line execution limit.",
+      "code": "move r0 1  #the first line has number 0\nadd r0 r0 3\ns db Setting r0\nj 1",
+      "key_instructions": ["move", "add", "s", "j"],
+      "notes": [
+        "Micro-benchmark script to measure IC10 execution speed in lines per tick.",
+        "Crucially omits 'yield' to test maximum execution.",
+        "Uses minimal code and no labels (except implicit line number target for 'j') to reduce script line count overhead.",
+        "Employs IC Housing Display ('db' alias assumed) to visualize the counter.",
+        "Experiment suggests approximately 128 lines of code are executed per tick.",
+        "Empty lines are also counted towards the execution limit."
+      ],
+      "devices_used": ["db (IC Housing Display)"],
+      "registers_used": ["r0"],
+      "variables_used": ["Setting (IC Housing Display Setting)"]
+    },
+    {
+      "category": "function_call_management",
+      "example_name": "Nested Function Calls and Return Address Management",
+      "description": "This example demonstrates how to handle nested function calls in IC10 code by using the stack to save and restore return addresses (`ra`). It addresses the issue of `jal` instructions overwriting the `ra` register when functions call other functions, which would lead to incorrect program flow in multi-level function calls.\n\nThe example presents two functions: `orientPanelsToStar` and `orientPanelsTo`. `orientPanelsToStar` intends to call `orientPanelsTo`. To correctly return from `orientPanelsTo` back to `orientPanelsToStar` and then from `orientPanelsToStar` to its original caller, `orientPanelsToStar` must save its return address before calling `orientPanelsTo` and restore it afterward.\n\nThe script emphasizes the use of `push ra` to save the return address onto the stack before a nested `jal` call and `pop ra` to retrieve it after the nested function returns. It contrasts this with an incorrect and limited approach of simply moving `ra` to another register, which only allows for one level of nesting.  The correct `push/pop ra` method allows for a significantly deeper function call stack (up to 512 levels).\n\n**Initialization Note:** The documentation recommends starting scripts that use `push/pop` with `clr db` (clear Data Bank) to ensure a clean stack, especially when the IC10 chip is in an IC Housing. This avoids potential stack residue from previous executions. However, `clr db` will cause an error if the IC10 is directly in a device slot (like an Air Conditioner).",
+      "code": "orientPanelsToStar:\n# Save return address set by the 'jal' instruction\npush ra\n\n# ...Calculate panels' orientation, for example leaving the results in r0 and r1...\n\n# Now call orientPanelsTo to actually set the panels' orientation\n# based on the computed values of r0 and r1.\njal orientPanelsTo\n\n# ...Call other functions here if desired...\n\n# Restore the return address of orientPanelsToStar itself\npop ra\n# Return to caller\nj ra\n\n##########\n\norientPanelsTo:\n# ...Actually set panels' orientation...\n\n# Return to caller\nj ra",
+      "key_instructions": ["push", "pop", "jal", "j", "clr"],
+      "notes": [
+        "Demonstrates correct handling of nested function calls using stack-based return address management.",
+        "Highlights the necessity of 'push ra' before nested 'jal' and 'pop ra' after function return to avoid overwriting return addresses.",
+        "Contrasts the correct 'push/pop ra' method with a flawed 'move ra to register' approach, explaining the limitations of the latter.",
+        "Mentions the maximum function call depth of 512 due to stack size.",
+        "Recommends using 'clr db' at script start to clear the stack for predictable behavior in IC Housings (but notes potential errors when IC10 is directly in device slots).",
+        "Illustrates advanced function call techniques for creating modular and reusable IC10 code."
+      ],
+      "devices_used": ["db (Data Bank - for stack operations, and clr db initialization)"],
+      "registers_used": ["ra"],
+      "variables_used": []
+    }
+  ]
+}

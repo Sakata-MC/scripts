@@ -1,0 +1,77 @@
+define hnAutoLathe   HASH("AutoLathe")
+define hnSTKAutoLathe  HASH("STK:AL")
+define hnPipeBender   HASH("PipeBender")
+define hnSTKPipeBender  HASH("STK:PB")
+define hnElectronics  HASH("Electronics")
+define hnSTKElectronics  HASH("STK:EP")
+define hnToolMfr   HASH("ToolMfr")
+define hnSTKToolMfr   HASH("STK:TM")
+
+alias AutoLatheCounter  r8
+alias AutoLatheExports  r9
+alias PipeBenderCounter  r10
+alias PipeBenderExports  r11
+alias ElectronicsCounter r12
+alias ElectronicsExports r13
+alias ToolMfrCounter  r14
+alias ToolMfrExports  r15
+
+define htAutoLathe   336213101
+define htPipeBender   -1888248335
+define htElectronics  1307165496
+define htToolMfr   -465741100
+define htStacker   1585641623
+
+Loop:
+yield
+
+lbn r0 htAutoLathe hnAutoLathe On 0
+sbn htStacker hnSTKAutoLathe On r0
+lbn r0 htPipeBender hnPipeBender On 0
+sbn htStacker hnSTKPipeBender On r0
+lbn r0 htElectronics hnElectronics On 0
+sbn htStacker hnSTKElectronics On r0
+lbn r0 htToolMfr hnToolMfr On 0
+sbn htStacker hnSTKToolMfr On r0
+
+lbn r0 htAutoLathe hnAutoLathe Activate 0
+brnez r0 3
+lbn AutoLatheCounter htStacker hnSTKAutoLathe Setting 0
+lbn AutoLatheExports htAutoLathe hnAutoLathe ExportCount 0
+breqz r0 5
+lbn r0 htAutoLathe hnAutoLathe ExportCount 0
+sub r0 r0 AutoLatheExports
+slt r0 r0 AutoLatheCounter
+sbn htAutoLathe hnAutoLathe Activate r0
+
+lbn r0 htPipeBender hnPipeBender Activate 0
+brnez r0 3
+lbn PipeBenderCounter htStacker hnSTKPipeBender Setting 0
+lbn PipeBenderExports htPipeBender hnPipeBender ExportCount 0
+breqz r0 5
+lbn r0 htPipeBender hnPipeBender ExportCount 0
+sub r0 r0 PipeBenderExports
+slt r0 r0 PipeBenderCounter
+sbn htPipeBender hnPipeBender Activate r0
+
+lbn r0 htElectronics hnElectronics Activate 0
+brnez r0 3
+lbn ElectronicsCounter htStacker hnSTKElectronics Setting 0
+lbn ElectronicsExports htElectronics hnElectronics ExportCount 0
+breqz r0 5
+lbn r0 htElectronics hnElectronics ExportCount 0
+sub r0 r0 ElectronicsExports
+slt r0 r0 ElectronicsCounter
+sbn htElectronics hnElectronics Activate r0
+
+lbn r0 htToolMfr hnToolMfr Activate 0
+brnez r0 3
+lbn ToolMfrCounter htStacker hnSTKToolMfr Setting 0
+lbn ToolMfrExports htToolMfr hnToolMfr ExportCount 0
+breqz r0 5
+lbn r0 htToolMfr hnToolMfr ExportCount 0
+sub r0 r0 ToolMfrExports
+slt r0 r0 ToolMfrCounter
+sbn htToolMfr hnToolMfr Activate r0
+
+j Loop

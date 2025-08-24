@@ -1,0 +1,118 @@
+alias Centrifuge d0
+alias led d1
+alias emergencyLight d2
+alias throttle r0
+alias limiter r1
+alias stress r2
+alias rpm r3
+alias stressLimit r6
+#sets how long the system will process
+#before dumping
+define SteadyStateTimer 1200
+s emergencyLight On 0
+#restart the cycle
+Reset:
+s Centrifuge On 1
+s led Setting 0
+s Centrifuge Open 0
+move throttle 0
+move limiter 0
+move stress 0
+s Centrifuge Throttle throttle
+s Centrifuge CombustionLimiter limiter
+#start spinning up
+j AccelerateThrottle
+Start:
+sleep 5
+s led Setting 2
+l stress Centrifuge Stress
+l rpm Centrifuge Rpm
+
+#check to see if thottle and limiter are set to
+#levels that show startup is complete
+seq r4 throttle 50
+seq r5 limiter 100
+and r4 r4 r5
+#we are fully started up so go full throttle
+#if this is a 1 because it means both are set
+beq r4 1 FullThrottle
+
+#Emergency shutdown
+bgt stress 65 EMERGENCY
+#wait until RPM's are 160
+blt rpm 160 Start
+#with rpm &gt; 160 bump the throttle as long as stress
+#is less that 15
+blt stress 15 AccelerateThrottle
+#stress is too high so wait until its lower
+#set the limit we are looking for
+move stressLimit 15
+bnezal 1 StressWait
+#go back to beginning of startup checks
+j Start
+AccelerateThrottle:
+s led Setting 1
+beq throttle 50 AccelerateLimiter
+add throttle throttle 10
+min throttle throttle 50
+s Centrifuge Throttle throttle
+j Start
+AccelerateLimiter:
+s led Setting 3
+add limiter limiter 10
+min limiter limiter 100
+s Centrifuge CombustionLimiter limiter
+j Start
+FullThrottle:
+s led Setting 4
+move throttle 100
+s Centrifuge Throttle throttle
+sleep 5
+move stressLimit 0
+bnezal 1 StressWait
+#let it run for a while
+bnezal 1 SteadyState
+#now we need to dump so first turn off
+s Centrifuge On 0
+#then wait for spin down
+bnezal 1 SpinDown
+#then make sure all pressure is gone
+bnezal 1 PressureReset
+s led Setting 9
+#set levers to 0 so we wait for startup again
+s Centrifuge Throttle 0
+s Centrifuge CombustionLimiter 0
+#has to be on to open
+s Centrifuge On 1
+s Centrifuge Open 1
+#wait for everything to be dumped
+sleep 60
+#go back to the beginning
+j Reset
+
+#Subroutines
+StressWait:
+s led Setting 6
+l r15 Centrifuge Stress
+bgt r15 stressLimit StressWait
+j ra
+SpinDown:
+s led Setting 7
+l r15 Centrifuge Rpm
+bgt r15 0 SpinDown
+j ra
+SteadyState:
+s led Setting 5
+sleep SteadyStateTimer
+j ra
+PressureReset:
+s led Setting 8
+l r4 Centrifuge Pressure
+bgt r4 0 PressureReset
+j ra
+#KEEP AT BOTTOM SO SYSTEM STOPS
+EMERGENCY:
+s led Setting 99
+s Centrifuge On 0
+s Centrifuge Throttle 0
+s Centrifuge CombustionLimiter 0

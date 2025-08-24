@@ -1,0 +1,113 @@
+# Layout: Vending Machine -> Chutes to
+# Chute Digital Flip Flop Splitter (L/R) connecting
+# to respective Printer. eg DC:AL to Autolathe,
+# DC:HPB to Hydraulic Pipe Bender, etc.
+alias VendingMachine d0
+alias Autolathe d1
+alias PipeBender d2
+alias Electronics d3
+alias Tools d4
+alias Ingot r11
+alias LastImportCount r12
+define LED 1944485013
+define ChuteDFFSright 163728359
+define ChuteDFFSleft -810874728
+sb ChuteDFFSleft Mode 0
+sb ChuteDFFSright Mode 0
+
+start:
+yield
+sb ChuteDFFSright Setting 0
+sb ChuteDFFSright SettingOutput 0
+sb ChuteDFFSright On 1
+sb ChuteDFFSleft Setting 0
+sb ChuteDFFSleft SettingOutput 0
+sb ChuteDFFSleft On 1
+sb LED Color Color.Green
+move r9 1
+jal CheckPrinter
+move r9 2
+jal CheckPrinter
+move r9 3
+jal CheckPrinter
+move r9 4
+jal CheckPrinter
+j start
+
+CheckPrinter:
+move Ingot 0
+lr r0 dr9 Required HASH("Iron")
+select Ingot r0 HASH("ItemIronIngot") Ingot
+lr r0 dr9 Required HASH("Copper")
+select Ingot r0 HASH("ItemCopperIngot") Ingot
+lr r0 dr9 Required HASH("Gold")
+select Ingot r0 HASH("ItemGoldIngot") Ingot
+lr r0 dr9 Required HASH("Lead")
+select Ingot r0 HASH("ItemLeadIngot") Ingot
+lr r0 dr9 Required HASH("Nickel")
+select Ingot r0 HASH("ItemNickelIngot") Ingot
+lr r0 dr9 Required HASH("Silicon")
+select Ingot r0 HASH("ItemSiliconIngot") Ingot
+lr r0 dr9 Required HASH("Silver")
+select Ingot r0 HASH("ItemSilverIngot") Ingot
+lr r0 dr9 Required HASH("Constantan")
+select Ingot r0 HASH("ItemConstantanIngot") Ingot
+lr r0 dr9 Required HASH("Electrum")
+select Ingot r0 HASH("ItemElectrumIngot") Ingot
+lr r0 dr9 Required HASH("Invar")
+select Ingot r0 HASH("ItemInvarIngot") Ingot
+lr r0 dr9 Required HASH("Solder")
+select Ingot r0 HASH("ItemSolderIngot") Ingot
+lr r0 dr9 Required HASH("Steel")
+select Ingot r0 HASH("ItemSteelIngot") Ingot
+lr r0 dr9 Required HASH("Astroloy")
+select Ingot r0 HASH("ItemAstroloyIngot") Ingot
+lr r0 dr9 Required HASH("Hastelloy")
+select Ingot r0 HASH("ItemHastelloyIngot") Ingot
+lr r0 dr9 Required HASH("Inconel")
+select Ingot r0 HASH("ItemInconelIngot") Ingot
+lr r0 dr9 Required HASH("Stellite")
+select Ingot r0 HASH("ItemStelliteIngot") Ingot
+lr r0 dr9 Required HASH("Waspaloy")
+select Ingot r0 HASH("ItemWaspaloyIngot") Ingot
+s db Setting Ingot
+beqz Ingot ra
+sb LED Color Color.Yellow
+move r5 2
+
+FindIngot:
+ls r0 VendingMachine r5 OccupantHash
+beq r0 Ingot DeliverIngot
+add r5 r5 1
+blt r5 102 FindIngot
+sb LED Color Color.Red
+sleep 5
+j ra
+
+DeliverIngot:
+seq r1 r9 1
+sbn ChuteDFFSright HASH("DC:AL") Mode r1
+sbn ChuteDFFSleft HASH("DC:AL") Mode r1
+seq r1 r9 2
+sbn ChuteDFFSright HASH("DC:HPB") Mode r1
+sbn ChuteDFFSleft HASH("DC:HPB") Mode r1
+seq r1 r9 3
+sbn ChuteDFFSright HASH("DC:EP") Mode r1
+sbn ChuteDFFSleft HASH("DC:EP") Mode r1
+seq r1 r9 4
+sbn ChuteDFFSright HASH("DC:TM") Mode r1
+sbn ChuteDFFSleft HASH("DC:TM") Mode r1
+l LastImportCount dr9 ImportCount
+s VendingMachine RequestHash 0
+yield
+s VendingMachine RequestHash Ingot
+
+WaitForDelivery:
+sb LED Color Color.Purple
+yield
+l r0 dr9 ImportCount
+beq r0 LastImportCount WaitForDelivery
+sb ChuteDFFSleft Mode 0
+sb ChuteDFFSright Mode 0
+yield
+j ra
