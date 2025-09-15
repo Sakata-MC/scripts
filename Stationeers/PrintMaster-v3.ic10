@@ -12,6 +12,10 @@ alias LastImportCount r12
 define LED 1944485013
 define ChuteDFFSright 163728359
 define ChuteDFFSleft -810874728
+define AutolatheHash 336213101
+define PipeBenderHash -1888248335
+define ElectronicsHash 1307165496
+define ToolsHash -465741100
 sb ChuteDFFSleft Mode 0
 sb ChuteDFFSright Mode 0
 
@@ -24,51 +28,51 @@ sb ChuteDFFSleft Setting 0
 sb ChuteDFFSleft SettingOutput 0
 sb ChuteDFFSleft On 1
 sb LED Color Color.Green
-move r9 1
+l r9 d1 ReferenceId
 jal CheckPrinter
-move r9 2
+l r9 d2 ReferenceId
 jal CheckPrinter
-move r9 3
+l r9 d3 ReferenceId
 jal CheckPrinter
-move r9 4
+l r9 d4 ReferenceId
 jal CheckPrinter
 j start
 
 CheckPrinter:
 move Ingot 0
-lr r0 dr9 Required HASH("Iron")
+lr r0 r9 Required HASH("Iron")
 select Ingot r0 HASH("ItemIronIngot") Ingot
-lr r0 dr9 Required HASH("Copper")
+lr r0 r9 Required HASH("Copper")
 select Ingot r0 HASH("ItemCopperIngot") Ingot
-lr r0 dr9 Required HASH("Gold")
+lr r0 r9 Required HASH("Gold")
 select Ingot r0 HASH("ItemGoldIngot") Ingot
-lr r0 dr9 Required HASH("Lead")
+lr r0 r9 Required HASH("Lead")
 select Ingot r0 HASH("ItemLeadIngot") Ingot
-lr r0 dr9 Required HASH("Nickel")
+lr r0 r9 Required HASH("Nickel")
 select Ingot r0 HASH("ItemNickelIngot") Ingot
-lr r0 dr9 Required HASH("Silicon")
+lr r0 r9 Required HASH("Silicon")
 select Ingot r0 HASH("ItemSiliconIngot") Ingot
-lr r0 dr9 Required HASH("Silver")
+lr r0 r9 Required HASH("Silver")
 select Ingot r0 HASH("ItemSilverIngot") Ingot
-lr r0 dr9 Required HASH("Constantan")
+lr r0 r9 Required HASH("Constantan")
 select Ingot r0 HASH("ItemConstantanIngot") Ingot
-lr r0 dr9 Required HASH("Electrum")
+lr r0 r9 Required HASH("Electrum")
 select Ingot r0 HASH("ItemElectrumIngot") Ingot
-lr r0 dr9 Required HASH("Invar")
+lr r0 r9 Required HASH("Invar")
 select Ingot r0 HASH("ItemInvarIngot") Ingot
-lr r0 dr9 Required HASH("Solder")
+lr r0 r9 Required HASH("Solder")
 select Ingot r0 HASH("ItemSolderIngot") Ingot
-lr r0 dr9 Required HASH("Steel")
+lr r0 r9 Required HASH("Steel")
 select Ingot r0 HASH("ItemSteelIngot") Ingot
-lr r0 dr9 Required HASH("Astroloy")
+lr r0 r9 Required HASH("Astroloy")
 select Ingot r0 HASH("ItemAstroloyIngot") Ingot
-lr r0 dr9 Required HASH("Hastelloy")
+lr r0 r9 Required HASH("Hastelloy")
 select Ingot r0 HASH("ItemHastelloyIngot") Ingot
-lr r0 dr9 Required HASH("Inconel")
+lr r0 r9 Required HASH("Inconel")
 select Ingot r0 HASH("ItemInconelIngot") Ingot
-lr r0 dr9 Required HASH("Stellite")
+lr r0 r9 Required HASH("Stellite")
 select Ingot r0 HASH("ItemStelliteIngot") Ingot
-lr r0 dr9 Required HASH("Waspaloy")
+lr r0 r9 Required HASH("Waspaloy")
 select Ingot r0 HASH("ItemWaspaloyIngot") Ingot
 s db Setting Ingot
 beqz Ingot ra
@@ -85,19 +89,20 @@ sleep 5
 j ra
 
 DeliverIngot:
-seq r1 r9 1
-sbn ChuteDFFSright HASH("DC:AL") Mode r1
-sbn ChuteDFFSleft HASH("DC:AL") Mode r1
-seq r1 r9 2
-sbn ChuteDFFSright HASH("DC:HPB") Mode r1
-sbn ChuteDFFSleft HASH("DC:HPB") Mode r1
-seq r1 r9 3
-sbn ChuteDFFSright HASH("DC:EP") Mode r1
-sbn ChuteDFFSleft HASH("DC:EP") Mode r1
-seq r1 r9 4
-sbn ChuteDFFSright HASH("DC:TM") Mode r1
-sbn ChuteDFFSleft HASH("DC:TM") Mode r1
-l LastImportCount dr9 ImportCount
+l r10 r9 PrefabHash
+brne r10 AutolatheHash 2
+sbn ChuteDFFSright HASH("DC:AL") Mode 1
+sbn ChuteDFFSleft HASH("DC:AL") Mode 1
+brne r10 PipeBenderHash 2
+sbn ChuteDFFSright HASH("DC:HPB") Mode 1
+sbn ChuteDFFSleft HASH("DC:HPB") Mode 1
+brne r10 ElectronicsHash 2
+sbn ChuteDFFSright HASH("DC:EP") Mode 1
+sbn ChuteDFFSleft HASH("DC:EP") Mode 1
+brne r10 ToolsHash 2
+sbn ChuteDFFSright HASH("DC:TM") Mode 1
+sbn ChuteDFFSleft HASH("DC:TM") Mode 1
+l LastImportCount r9 ImportCount
 s VendingMachine RequestHash 0
 yield
 s VendingMachine RequestHash Ingot
@@ -105,7 +110,7 @@ s VendingMachine RequestHash Ingot
 WaitForDelivery:
 sb LED Color Color.Purple
 yield
-l r0 dr9 ImportCount
+l r0 r9 ImportCount
 beq r0 LastImportCount WaitForDelivery
 sb ChuteDFFSleft Mode 0
 sb ChuteDFFSright Mode 0
