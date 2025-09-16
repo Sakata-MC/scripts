@@ -86,7 +86,10 @@ s FurnaceIC Setting 0
 
 WaitForMem:
 yield
-l r0 dr5 Setting
+bne r5 3 1
+l r0 LMIngotReq Setting
+bne r5 4 1
+l r0 LMOreReq Setting
 bnez r0 WaitForMem
 j main
 
