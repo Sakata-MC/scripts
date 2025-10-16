@@ -5,12 +5,12 @@
 ::::::::::::::::::::::::::::::::::::::::::::
  @echo off
  CLS
+ ECHO.
  ECHO NOTE: 
  ECHO Elevation is only needed if you need to clear the nVidia cache at
  ECHO "C:\ProgramData\NVIDIA Corporation\NV_Cache\". Otherwise, you can
  ECHO deny the script elevation permissions and it will still clear all
  ECHO other locations without issue.
- PAUSE
  ECHO =============================
  ECHO Running Admin shell
  ECHO =============================
@@ -65,8 +65,14 @@
 @echo off
 echo Clearing temp files and D3D shader cache...
 :: Remove the :: from the next line to also clean up your temp files location that may help with other games:
-::del /s /q "%localappdata%\Temp\*.* "
+del /s /q "%localappdata%\Temp\*.* "
 del /s /q "%localappdata%\D3DSCache\*.* "
+
+echo Clearing Steam Shaders
+:: You'll need to configure this yourself to point at your various steam libraries.
+del /s /q "F:\SteamLibrary\steamapps\shadercache\*.* "
+del /s /q "G:\SteamLibrary\steamapps\shadercache\*.* "
+
 
 echo Clearing nVidia caches...
 del /s /q "%localappdata%\NVIDIA\GLCACHE\*.* "
@@ -78,7 +84,6 @@ echo Clearing AMD caches...
 del /s /q "%localappdata%\AMD\DxCache\*.* "
 del /s /q "%localappdata%\AMD\DxcCache\*.* "
 del /s /q "%localappdata%\AMD\Dx9Cache\*.* "
-del /s /q "%localappdata%\AMD\VkCache\*.* "
 
 echo Clearing Star Citizen cache... keeps GraphicsSettings.json
 set "scfolder=%localappdata%\Star Citizen"
