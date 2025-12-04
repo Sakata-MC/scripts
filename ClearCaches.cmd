@@ -70,6 +70,7 @@ del /s /q "%localappdata%\D3DSCache\*.* "
 
 echo Clearing Steam Shaders
 :: You'll need to configure this yourself to point at your various steam libraries.
+del /s /q "C:\Program Files (x86)\Steam\steamapps\shadercache\*.* "
 del /s /q "F:\SteamLibrary\steamapps\shadercache\*.* "
 del /s /q "G:\SteamLibrary\steamapps\shadercache\*.* "
 
