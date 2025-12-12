@@ -11,6 +11,7 @@
  ECHO located in "Program Files" or the x86 equivalent. Otherwise, you can
  ECHO deny the script elevation permissions and it will still clear all
  ECHO other locations without issue.
+pause
  ECHO =============================
  ECHO Running Admin shell
  ECHO =============================
