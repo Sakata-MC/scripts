@@ -6,12 +6,6 @@
  @echo off
  CLS
  ECHO.
- ECHO NOTE: 
- ECHO Elevation is only needed if you need to clear the nVidia and Steam cache
- ECHO located in "Program Files" or the x86 equivalent. Otherwise, you can
- ECHO deny the script elevation permissions and it will still clear all
- ECHO other locations without issue.
-pause
  ECHO =============================
  ECHO Running Admin shell
  ECHO =============================
@@ -32,6 +26,12 @@ pause
 :getPrivileges
   if '%1'=='ELEV' (echo ELEV & shift /1 & goto gotPrivileges)
   ECHO.
+  ECHO NOTE: 
+  ECHO Elevation is only needed if you need to clear the nVidia and Steam cache
+  ECHO located in "Program Files" or the x86 equivalent. Otherwise, you can
+  ECHO deny the script elevation permissions and it will still clear all
+  ECHO other locations without issue.
+  pause
   ECHO **************************************
   ECHO Invoking UAC for Privilege Escalation
   ECHO **************************************
