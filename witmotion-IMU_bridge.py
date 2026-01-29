@@ -4,6 +4,9 @@ import sys
 import socket
 import threading
 import queue
+import os
+import psutil
+import subprocess  # Added for launching OpenTrack
 from datetime import datetime
 from bleak import BleakClient, BleakError
 
@@ -11,6 +14,7 @@ from bleak import BleakClient, BleakError
 ADDRESS = "DE:FA:55:15:81:5D"
 OPENTRACK_IP = "127.0.0.1"
 OPENTRACK_PORT = 4242
+OPENTRACK_PATH = r"D:\Apps\OpenTrack\opentrack.exe" # Path to your executable
 
 NOTIFY_UUID = "0000ffe4-0000-1000-8000-00805f9a34fb"
 WRITE_UUID = "0000ffe9-0000-1000-8000-00805f9a34fb"
@@ -42,18 +46,46 @@ sender.start()
 def get_ts():
     return datetime.now().strftime("%H:%M:%S.%f")[:-3]
 
+def ensure_opentrack_running():
+    """Checks for OpenTrack, launches if missing, and sets HIGH priority."""
+    ot_proc = None
+    
+    # Check if already running
+    for proc in psutil.process_iter(['name']):
+        try:
+            if proc.info['name'].lower() == "opentrack.exe":
+                ot_proc = proc
+                print(f"[{get_ts()}] OpenTrack already running (PID: {ot_proc.pid}).")
+                break
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+
+    # If not running, launch it
+    if ot_proc is None:
+        try:
+            new_proc = subprocess.Popen(OPENTRACK_PATH)
+            ot_proc = psutil.Process(new_proc.pid)
+            print(f"[{get_ts()}] Launched OpenTrack (PID: {ot_proc.pid}).")
+        except Exception as e:
+            print(f"[{get_ts()}] Error launching OpenTrack: {e}")
+            return
+
+    # Set priority
+    try:
+        ot_proc.nice(psutil.HIGH_PRIORITY_CLASS)
+        print(f"[{get_ts()}] OpenTrack priority set to HIGH.")
+    except Exception as e:
+        print(f"[{get_ts()}] Could not set OpenTrack priority: {e}")
+
 def handle_data(handle, data):
     if len(data) < 20 or data[0] != 0x55: return
     flag = data[1]
     ts = get_ts()
-
-    # CRITICAL: Only logic inside this block results in a UDP packet
     if flag == 0x61:
         raw = struct.unpack('<hhhhhhhhh', data[2:20])
         accel = [r / 32768.0 * 16 for r in raw[0:3]]
         r, p, y = [r / 32768.0 * 180 for r in raw[6:9]]
         
-        # Pack ONLY when we have 0x61 data
         packet = struct.pack('dddddd', 0.0, 0.0, 0.0, float(y), float(p), float(r))
         
         try:
@@ -62,7 +94,6 @@ def handle_data(handle, data):
             tx_queue.put_nowait(packet)
         except queue.Full:
             pass
-
         sys.stdout.write(f"\033[2F[{ts}] [EULER] R:{r:>7.2f}° P:{p:>7.2f}° Y:{y:>7.2f}° | Z-Accel: {accel[2]:.2f}g\033[2E")
         sys.stdout.flush()
 
@@ -80,6 +111,9 @@ def handle_data(handle, data):
             sys.stdout.flush()
 
 async def main():
+    # Ensure OpenTrack is ready before starting BLE logic
+    ensure_opentrack_running()
+    
     retries = 3
     for attempt in range(retries):
         client = BleakClient(ADDRESS)
@@ -112,6 +146,8 @@ async def main():
             if client.is_connected: await client.disconnect()
 
 if __name__ == "__main__":
+    p = psutil.Process(os.getpid())
+    p.nice(psutil.HIGH_PRIORITY_CLASS)
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
