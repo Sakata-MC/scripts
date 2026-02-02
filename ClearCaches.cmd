@@ -75,7 +75,6 @@ del /s /q "C:\Program Files (x86)\Steam\steamapps\shadercache\*.*"
 del /s /q "F:\SteamLibrary\steamapps\shadercache\*.*"
 del /s /q "G:\SteamLibrary\steamapps\shadercache\*.*"
 
-
 echo Clearing nVidia caches...
 del /s /q "%localappdata%\NVIDIA\GLCACHE\*.*"
 del /s /q "%localappdata%\NVIDIA\NV_Cache\*.*"
