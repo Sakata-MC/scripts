@@ -91,9 +91,11 @@ del /s /q "%localappdata%\AMD\VkCache\*.*"
 echo Clearing Star Citizen cache... keeps GraphicsSettings.json
 set "scfolder=%localappdata%\Star Citizen"
 md ".\_TempDir_"
-robocopy "%scfolder%" "_TempDir_" /MIR /E GraphicsSettings.json
+robocopy "%scfolder%" "_TempDir_" /S GraphicsSettings.json
 del /s /q "%localappdata%\Star Citizen\*.*"
-robocopy "_TempDir_" "%scfolder%" /MIR /E GraphicsSettings.json
+rd /s /q "%localappdata%\Star Citizen\"
+md "%localappdata%\Star Citizen\"
+robocopy "_TempDir_" "%scfolder%" /S GraphicsSettings.json
 del /s /q ".\_TempDir_\*.*"
 rd /s /q ".\_TempDir_"
 
